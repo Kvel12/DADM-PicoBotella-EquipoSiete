@@ -86,7 +86,6 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.2")
     implementation ("com.getbase:floatingactionbutton:1.10.1")
 
-
     //Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -94,5 +93,7 @@ dependencies {
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.12.0")
 
+    //Animaciones
+    implementation ("com.airbnb.android:lottie:6.0.0")
 }
 
