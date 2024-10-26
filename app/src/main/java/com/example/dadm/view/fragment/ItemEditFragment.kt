@@ -9,13 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentItemEditBinding
-import com.example.dadm.model.Inventory
-import com.example.dadm.viewmodel.InventoryViewModel
+import com.example.dadm.model.Challenge
+import com.example.dadm.viewmodel.ChallengeViewModel
 
 class ItemEditFragment : Fragment() {
     private lateinit var binding: FragmentItemEditBinding
-    private val inventoryViewModel: InventoryViewModel by viewModels()
-    private lateinit var receivedInventory: Inventory
+    private val challengeViewModel: ChallengeViewModel by viewModels()
+    private lateinit var receivedChallenge: Challenge
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +41,10 @@ class ItemEditFragment : Fragment() {
 
     private fun dataInventory(){
         val receivedBundle = arguments
-        receivedInventory = receivedBundle?.getSerializable("dataInventory") as Inventory
-        binding.etName.setText(receivedInventory.name)
-        binding.etPrice.setText(receivedInventory.price.toString())
-        binding.etQuantity.setText(receivedInventory.quantity.toString())
+        receivedChallenge = receivedBundle?.getSerializable("dataInventory") as Challenge
+        binding.etName.setText(receivedChallenge.name)
+        binding.etPrice.setText(receivedChallenge.price.toString())
+        binding.etQuantity.setText(receivedChallenge.quantity.toString())
 
     }
 
@@ -52,8 +52,8 @@ class ItemEditFragment : Fragment() {
         val name = binding.etName.text.toString()
         val price = binding.etPrice.text.toString().toInt()
         val quantity = binding.etQuantity.text.toString().toInt()
-        val inventory = Inventory(receivedInventory.id, name,price,quantity)
-        inventoryViewModel.updateInventory(inventory)
+        val challenge = Challenge(receivedChallenge.id, name,price,quantity)
+        challengeViewModel.updateInventory(challenge)
         findNavController().navigate(R.id.action_itemEditFragment_to_homeInventoryFragment)
 
     }

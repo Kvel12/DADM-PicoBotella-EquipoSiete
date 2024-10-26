@@ -5,20 +5,20 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dadm.R
 import com.example.dadm.databinding.ItemInventoryBinding
-import com.example.dadm.model.Inventory
+import com.example.dadm.model.Challenge
 
-class InventoryViewHolder(binding: ItemInventoryBinding, navController: NavController) :
+class ChallengeViewHolder(binding: ItemInventoryBinding, navController: NavController) :
     RecyclerView.ViewHolder(binding.root) {
     val bindingItem = binding
     val navController = navController
-    fun setItemInventory(inventory: Inventory) {
-        bindingItem.tvName.text = inventory.name
-        bindingItem.tvPrice.text = "$ ${inventory.price}"
-        bindingItem.tvQuantity.text = "${inventory.quantity}"
+    fun setItemInventory(challenge: Challenge) {
+        bindingItem.tvName.text = challenge.description
+        bindingItem.tvPrice.text = "$ ${challenge.description}"
+        bindingItem.tvQuantity.text = "${challenge.description}"
 
         bindingItem.cvInventory.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("clave", inventory)
+            bundle.putSerializable("clave", challenge)
             navController.navigate(R.id.action_homeInventoryFragment_to_itemDetailsFragment, bundle)
         }
 

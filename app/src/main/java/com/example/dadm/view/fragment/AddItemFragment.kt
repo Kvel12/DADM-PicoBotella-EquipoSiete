@@ -12,13 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.dadm.databinding.FragmentAddItemBinding
-import com.example.dadm.model.Inventory
-import com.example.dadm.viewmodel.InventoryViewModel
+import com.example.dadm.model.Challenge
+import com.example.dadm.viewmodel.ChallengeViewModel
 
 class AddItemFragment : Fragment() {
 
     private lateinit var binding: FragmentAddItemBinding
-    private val inventoryViewModel: InventoryViewModel by viewModels()
+    private val challengeViewModel: ChallengeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,17 +40,17 @@ class AddItemFragment : Fragment() {
     private fun controladores() {
         validarDatos()
         binding.btnSaveInventory.setOnClickListener {
-            saveInvetory()
+            saveChallenge()
         }
     }
 
-    private fun saveInvetory(){
+    private fun saveChallenge(){
         val name = binding.etName.text.toString()
-        val price = binding.etPrice.text.toString().toInt()
-        val quantity = binding.etQuantity.text.toString().toInt()
-        val inventory = Inventory(name = name, price = price, quantity = quantity)
-        inventoryViewModel.saveInventory(inventory)
-        Log.d("test",inventory.toString())
+        val price = binding.etPrice.text.toString()
+        val quantity = binding.etQuantity.text.toString()
+        val challenge = Challenge(description = name, description = price, description = quantity)
+        challengeViewModel.saveInventory(challenge)
+        Log.d("test",challenge.toString())
         Toast.makeText(context,"Artículo guardado !!", Toast.LENGTH_SHORT).show()
         findNavController().popBackStack()
 
@@ -77,8 +77,8 @@ class AddItemFragment : Fragment() {
 
     private fun observerListProduct() {
 
-        inventoryViewModel.getProducts()
-        inventoryViewModel.listProducts.observe(viewLifecycleOwner){ lista ->
+        challengeViewModel.getProducts()
+        challengeViewModel.listProducts.observe(viewLifecycleOwner){ lista ->
 
             val product = lista[2]
             Glide.with(binding.root.context).load(product.id).into(binding.ivImagenApi)

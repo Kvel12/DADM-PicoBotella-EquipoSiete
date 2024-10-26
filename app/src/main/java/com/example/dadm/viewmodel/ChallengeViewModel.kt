@@ -5,19 +5,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.dadm.model.Inventory
+import com.example.dadm.model.Challenge
 import com.example.dadm.model.ProductModelResponse
-import com.example.dadm.repository.InventoryRepository
 import kotlinx.coroutines.launch
 
 
-class InventoryViewModel(application: Application) : AndroidViewModel(application) {
+class ChallengeViewModel(application: Application) : AndroidViewModel(application) {
     val context = getApplication<Application>()
-    private val inventoryRepository = InventoryRepository(context)
+    private val challengeRepository = ChallengeRepository(context)
 
 
-    private val _listInventory = MutableLiveData<MutableList<Inventory>>()
-    val listInventory: LiveData<MutableList<Inventory>> get() = _listInventory
+    private val _listChallenge = MutableLiveData<MutableList<Challenge>>()
+    val listChallenge: LiveData<MutableList<Challenge>> get() = _listChallenge
 
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
@@ -26,12 +25,12 @@ class InventoryViewModel(application: Application) : AndroidViewModel(applicatio
     private val _listProducts = MutableLiveData<MutableList<ProductModelResponse>>()
     val listProducts: LiveData<MutableList<ProductModelResponse>> = _listProducts
 
-    fun saveInventory(inventory: Inventory) {
+    fun saveInventory(challenge: Challenge) {
         viewModelScope.launch {
 
             _progresState.value = true
             try {
-                inventoryRepository.saveInventory(inventory)
+                challengeRepository.saveInventory(challenge)
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -43,7 +42,7 @@ class InventoryViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             _progresState.value = true
             try {
-                _listInventory.value = inventoryRepository.getListInventory()
+                _listChallenge.value = challengeRepository.getListInventory()
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -52,11 +51,11 @@ class InventoryViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun deleteInventory(inventory: Inventory) {
+    fun deleteInventory(challenge: Challenge) {
         viewModelScope.launch {
             _progresState.value = true
             try {
-                inventoryRepository.deleteInventory(inventory)
+                challengeRepository.deleteInventory(challenge)
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -65,11 +64,11 @@ class InventoryViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun updateInventory(inventory: Inventory) {
+    fun updateInventory(challenge: Challenge) {
         viewModelScope.launch {
             _progresState.value = true
             try {
-                inventoryRepository.updateRepositoy(inventory)
+                challengeRepository.updateRepositoy(challenge)
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -81,7 +80,7 @@ class InventoryViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             _progresState.value = true
             try {
-                _listProducts.value = inventoryRepository.getProducts()
+                _listProducts.value = challengeRepository.getProducts()
                 _progresState.value = false
 
             } catch (e: Exception) {
@@ -90,7 +89,7 @@ class InventoryViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun totalProducto(price: Int, quantity: Int): Double {
+    fun totalProducto(price: String, quantity: String): Double {
         val total = price * quantity
         return total.toDouble()
     }

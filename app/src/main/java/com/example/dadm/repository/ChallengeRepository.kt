@@ -1,38 +1,39 @@
 package com.example.dadm.repository
 import android.content.Context
-import com.example.dadm.data.InventoryDB
-import com.example.dadm.data.InventoryDao
-import com.example.dadm.model.Inventory
+import com.example.dadm.data.ChallengeDB
+import com.example.dadm.data.ChallengeDao
+import com.example.dadm.model.Challenge
 import com.example.dadm.model.ProductModelResponse
 import com.example.dadm.webservice.ApiService
 import com.example.dadm.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class InventoryRepository(val context: Context){
-    private var inventoryDao:InventoryDao = InventoryDB.getDatabase(context).inventoryDao()
+class ChallengeRepository(val context: Context){
+    private var challengeDao:ChallengeDao = ChallengeDB.getDatabase(context).challengeDao()
     private var apiService: ApiService = ApiUtils.getApiService()
-     suspend fun saveInventory(inventory:Inventory){
+
+    suspend fun saveChallenge(challenge:Challenge){
          withContext(Dispatchers.IO){
-             inventoryDao.saveInventory(inventory)
+             challengeDao.saveChallenge(challenge)
          }
      }
 
-    suspend fun getListInventory():MutableList<Inventory>{
+    suspend fun getListChallenge():MutableList<Challenge>{
         return withContext(Dispatchers.IO){
-            inventoryDao.getListInventory()
+            challengeDao.getListChallenge()
         }
     }
 
-    suspend fun deleteInventory(inventory: Inventory){
+    suspend fun deleteChallenge(challenge: Challenge){
         withContext(Dispatchers.IO){
-            inventoryDao.deleteInventory(inventory)
+            challengeDao.deleteChallenge(challenge)
         }
     }
 
-    suspend fun updateRepositoy(inventory: Inventory){
+    suspend fun updateChallenge(challenge: Challenge){
         withContext(Dispatchers.IO){
-            inventoryDao.updateInventory(inventory)
+            challengeDao.updateChallenge(challenge)
         }
     }
 
