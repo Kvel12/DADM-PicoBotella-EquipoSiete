@@ -5,9 +5,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-data class Inventory(
+data class Challenge(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val name: String,
-    val price: Int,
-    val quantity: Int): Serializable
+    val description: String): Serializable

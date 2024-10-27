@@ -9,13 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentItemDetailsBinding
-import com.example.dadm.model.Inventory
-import com.example.dadm.viewmodel.InventoryViewModel
+import com.example.dadm.model.Challenge
+import com.example.dadm.viewmodel.ChallengeViewModel
 
 class ItemDetailsFragment : Fragment() {
     private lateinit var binding: FragmentItemDetailsBinding
-    private val inventoryViewModel: InventoryViewModel by viewModels()
-    private lateinit var receivedInventory: Inventory
+    private val challengeViewModel: ChallengeViewModel by viewModels()
+    private lateinit var receivedChallenge: Challenge
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,28 +39,28 @@ class ItemDetailsFragment : Fragment() {
 
         binding.fbEdit.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable("dataInventory", receivedInventory)
+            bundle.putSerializable("dataInventory", receivedChallenge)
             findNavController().navigate(R.id.action_itemDetailsFragment_to_itemEditFragment, bundle)
         }
     }
 
     private fun dataInventory() {
         val receivedBundle = arguments
-        receivedInventory = receivedBundle?.getSerializable("clave") as Inventory
-        binding.tvItem.text = "${receivedInventory.name}"
-        binding.tvPrice.text = "$ ${receivedInventory.price}"
-        binding.tvQuantity.text = "${receivedInventory.quantity}"
+        receivedChallenge = receivedBundle?.getSerializable("clave") as Challenge
+        binding.tvItem.text = "${receivedChallenge.description}"
+        binding.tvPrice.text = "$ ${receivedChallenge.description}"
+        binding.tvQuantity.text = "${receivedChallenge.description}"
         binding.txtTotal.text = "$ ${
-            inventoryViewModel.totalProducto(
-                receivedInventory.price,
-                receivedInventory.quantity
+            challengeViewModel.totalProducto(
+                receivedChallenge.description,
+                receivedChallenge.description
             )
         }"
     }
 
     private fun deleteInventory(){
-        inventoryViewModel.deleteInventory(receivedInventory)
-        inventoryViewModel.getListInventory()
+        challengeViewModel.deleteInventory(receivedChallenge)
+        challengeViewModel.getListInventory()
         findNavController().popBackStack()
     }
 

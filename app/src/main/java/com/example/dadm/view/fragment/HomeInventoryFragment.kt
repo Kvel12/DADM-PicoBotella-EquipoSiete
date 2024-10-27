@@ -10,11 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentHomeInventoryBinding
-import com.example.dadm.view.adapter.InventoryAdapter
-import com.example.dadm.viewmodel.InventoryViewModel
+import com.example.dadm.view.adapter.ChallengeAdapter
+import com.example.dadm.viewmodel.ChallengeViewModel
 class HomeInventoryFragment : Fragment() {
     private lateinit var binding: FragmentHomeInventoryBinding
-    private val inventoryViewModel: InventoryViewModel by viewModels()
+    private val challengeViewModel: ChallengeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +46,12 @@ class HomeInventoryFragment : Fragment() {
 
     private fun observerListInventory(){
 
-        inventoryViewModel.getListInventory()
-        inventoryViewModel.listInventory.observe(viewLifecycleOwner){ listInventory ->
+        challengeViewModel.getListInventory()
+        challengeViewModel.listChallenge.observe(viewLifecycleOwner){ listInventory ->
             val recycler = binding.recyclerview
             val layoutManager =LinearLayoutManager(context)
             recycler.layoutManager = layoutManager
-            val adapter = InventoryAdapter(listInventory, findNavController())
+            val adapter = ChallengeAdapter(listInventory, findNavController())
             recycler.adapter = adapter
             adapter.notifyDataSetChanged()
 
@@ -59,7 +59,7 @@ class HomeInventoryFragment : Fragment() {
 
     }
     private fun observerProgress(){
-        inventoryViewModel.progresState.observe(viewLifecycleOwner){status ->
+        challengeViewModel.progresState.observe(viewLifecycleOwner){ status ->
             binding.progress.isVisible = status
         }
     }
