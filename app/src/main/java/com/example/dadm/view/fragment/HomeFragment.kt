@@ -12,7 +12,9 @@ import com.example.dadm.R
 import com.example.dadm.databinding.FragmentHomeInventoryBinding
 import com.example.dadm.view.adapter.ChallengeAdapter
 import com.example.dadm.viewmodel.ChallengeViewModel
-class HomeInventoryFragment : Fragment() {
+
+
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeInventoryBinding
     private val challengeViewModel: ChallengeViewModel by viewModels()
 
