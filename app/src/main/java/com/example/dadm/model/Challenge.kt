@@ -8,4 +8,4 @@ import java.io.Serializable
 data class Challenge(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val description: String): Serializable
+    var description: String): Serializable

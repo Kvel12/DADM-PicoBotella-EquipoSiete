@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">Pico <Botella></Botella></string>
+    <string name="app_name">Pico Botella</string>
     <string name="tituloSplash">pico botella</string>
-    <string name="tituloInventario">inventario</string>
-
+    <string name="agregar_reto"> Agregar reto</string>
+    <string name="escribir_reto">Escriba el reto</string>
+    <string name="boton_cancelar">Cancelar</string>
+    <string name="boton_guardar">Guardar</string>
+    <string name="tituloInventario">Inventario</string>
 
 </resources>

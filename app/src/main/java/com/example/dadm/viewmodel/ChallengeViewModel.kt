@@ -48,6 +48,18 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         _navigateToMain.value = false
     }
 
+    fun addChallenge(challenge: Challenge) {
+        viewModelScope.launch {
+            try {
+                challengeRepository.saveChallenge(challenge)
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
+
+
     fun saveInventory(challenge: Challenge) {
         viewModelScope.launch {
 
