@@ -1,5 +1,6 @@
 package com.example.dadm.viewmodel
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.media.MediaPlayer
@@ -14,12 +15,13 @@ import com.example.dadm.view.dialog.DialogoAgregarReto.mostrarDialogoAgregarReto
 import com.example.dadm.view.dialog.DialogoMostrarReto.mostrarDialogoReto
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 class ChallengeViewModel(application: Application) : AndroidViewModel(application) {
-    val context = getApplication<Application>()
+    private val context = getApplication<Application>()
     private val challengeRepository = ChallengeRepository(context)
-
 
     private val _listChallenge = MutableLiveData<MutableList<Challenge>>()
     val listChallenge: LiveData<MutableList<Challenge>> get() = _listChallenge
@@ -37,6 +39,24 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _listProducts = MutableLiveData<MutableList<ProductModelResponse>>()
     val listProducts: LiveData<MutableList<ProductModelResponse>> = _listProducts
 
+    // LiveData que indica cuándo se debe iniciar la actividad principal
+    private val _navigateToMain = MutableLiveData<Boolean>()
+    val navigateToMain: LiveData<Boolean> get() = _navigateToMain
+
+    fun splashScreen() {
+        viewModelScope.launch {
+            delay(TIME) // Espera el tiempo definido en `Constants.TIME`
+            _navigateToMain.value = true // Cambia el valor para indicar a la vista que debe navegar
+        }
+    }
+
+    // Reset del estado de navegación, si es necesario
+    fun resetNavigation() {
+        _navigateToMain.value = false
+    }
+
+    fun saveInventory(challenge: Challenge) {
+        viewModelScope.launch {
 
     fun dialogoMostrarReto(
         context: Context,
@@ -64,31 +84,62 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     fun getListChallenge(){
         viewModelScope.launch {
             try {
-                _ListaReto.value = challengeRepository.getListChallenge()
-            } catch (e: Exception){}
-        }
-    }
-
-    fun deleteChallenge(challenge: Challenge){
-        viewModelScope.launch {
-            try {
-                challengeRepository.deleteChallenge(challenge)
-            }catch (e: Exception){
-
+                challengeRepository.saveChallenge(challenge)
+                _progresState.value = false
+            } catch (e: Exception) {
+                _progresState.value = false
             }
         }
     }
 
     fun updateChallenge (challenge: Challenge){
         viewModelScope.launch {
-            try{
-                challengeRepository.updateChallenge(challenge)
-            }catch (e: Exception){
+            _progresState.value = true
+            try {
+                _listChallenge.value = challengeRepository.getListChallenge()
+                _progresState.value = false
+            } catch (e: Exception) {
+                _progresState.value = false
+            }
 
+        }
+    }
+
+    fun deleteInventory(challenge: Challenge) {
+        viewModelScope.launch {
+            _progresState.value = true
+            try {
+                challengeRepository.deleteChallenge(challenge)
+                _progresState.value = false
+            } catch (e: Exception) {
+                _progresState.value = false
+            }
+
+        }
+    }
+
+    fun updateInventory(challenge: Challenge) {
+        viewModelScope.launch {
+            _progresState.value = true
+            try {
+                challengeRepository.updateChallenge(challenge)
+                _progresState.value = false
+            } catch (e: Exception) {
+                _progresState.value = false
             }
         }
     }
 
 
+            } catch (e: Exception) {
+                _progresState.value = false
+            }
+        }
+    }
+
+//    fun totalProducto(price: String, quantity: String): Double {
+//        val total = price * quantity
+//        return total.toDouble()
+//    }
 }
 

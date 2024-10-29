@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">pico botella</string>
-    <string name="texto_splash">pico botella</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Pico <Botella></Botella></string>
+    <string name="tituloSplash">pico botella</string>
+    <string name="tituloInventario">inventario</string>
+
 
     <string name="btnCloseDialog">Cerrar</string>
     <string name="retos">Retos</string>
