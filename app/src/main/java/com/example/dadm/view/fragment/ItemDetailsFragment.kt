@@ -50,12 +50,12 @@ class ItemDetailsFragment : Fragment() {
         binding.tvItem.text = "${receivedChallenge.description}"
         binding.tvPrice.text = "$ ${receivedChallenge.description}"
         binding.tvQuantity.text = "${receivedChallenge.description}"
-        binding.txtTotal.text = "$ ${
-            challengeViewModel.totalProducto(
-                receivedChallenge.description,
-                receivedChallenge.description
-            )
-        }"
+////        binding.txtTotal.text = "$ ${
+//////            challengeViewModel.totalProducto(
+//////                receivedChallenge.description,
+//////                receivedChallenge.description
+////            )
+//        }"
     }
 
     private fun deleteInventory(){

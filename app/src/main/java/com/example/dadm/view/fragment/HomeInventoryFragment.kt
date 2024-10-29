@@ -40,24 +40,24 @@ class HomeInventoryFragment : Fragment() {
     }
 
     private fun observadorViewModel(){
-        observerListInventory()
+//        observerListInventory()
         observerProgress()
     }
 
-    private fun observerListInventory(){
-
-        challengeViewModel.getListInventory()
-        challengeViewModel.listChallenge.observe(viewLifecycleOwner){ listInventory ->
-            val recycler = binding.recyclerview
-            val layoutManager =LinearLayoutManager(context)
-            recycler.layoutManager = layoutManager
-            val adapter = ChallengeAdapter(listInventory, findNavController())
-            recycler.adapter = adapter
-            adapter.notifyDataSetChanged()
-
-        }
-
-    }
+//    private fun observerListInventory(){
+//
+//        challengeViewModel.getListInventory()
+//        challengeViewModel.listChallenge.observe(viewLifecycleOwner){ listInventory ->
+//            val recycler = binding.recyclerview
+//            val layoutManager =LinearLayoutManager(context)
+//            recycler.layoutManager = layoutManager
+//            val adapter = ChallengeAdapter(listInventory, findNavController())
+//            recycler.adapter = adapter
+//            adapter.notifyDataSetChanged()
+//
+//        }
+//
+//    }
     private fun observerProgress(){
         challengeViewModel.progresState.observe(viewLifecycleOwner){ status ->
             binding.progress.isVisible = status

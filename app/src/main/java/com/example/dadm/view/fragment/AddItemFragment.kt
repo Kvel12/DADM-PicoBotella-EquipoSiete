@@ -29,32 +29,32 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        controladores()
-        observerViewModel()
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        controladores()
+//        observerViewModel()
+//
+//
+//    }
 
+//    private fun controladores() {
+//        validarDatos()
+//        binding.btnSaveInventory.setOnClickListener {
+//            saveChallenge()
+//        }
+//    }
 
-    }
-
-    private fun controladores() {
-        validarDatos()
-        binding.btnSaveInventory.setOnClickListener {
-            saveChallenge()
-        }
-    }
-
-    private fun saveChallenge(){
-        val name = binding.etName.text.toString()
-        val price = binding.etPrice.text.toString()
-        val quantity = binding.etQuantity.text.toString()
-        val challenge = Challenge(description = name, description = price, description = quantity)
-        challengeViewModel.saveInventory(challenge)
-        Log.d("test",challenge.toString())
-        Toast.makeText(context,"Artículo guardado !!", Toast.LENGTH_SHORT).show()
-        findNavController().popBackStack()
-
-    }
+//    private fun saveChallenge(){
+//        val name = binding.etName.text.toString()
+//        val price = binding.etPrice.text.toString()
+//        val quantity = binding.etQuantity.text.toString()
+//        val challenge = Challenge(description = name, description = price, description = quantity)
+//        challengeViewModel.saveInventory(challenge)
+//        Log.d("test",challenge.toString())
+//        Toast.makeText(context,"Artículo guardado !!", Toast.LENGTH_SHORT).show()
+//        findNavController().popBackStack()
+//
+//    }
 
     private fun validarDatos() {
         val listEditText = listOf(binding.etName, binding.etPrice, binding.etQuantity)
@@ -71,20 +71,20 @@ class AddItemFragment : Fragment() {
 
 
 
-    private fun observerViewModel(){
-        observerListProduct()
-    }
+//    private fun observerViewModel(){
+//        observerListProduct()
+//    }
 
-    private fun observerListProduct() {
-
-        challengeViewModel.getProducts()
-        challengeViewModel.listProducts.observe(viewLifecycleOwner){ lista ->
-
-            val product = lista[2]
-            Glide.with(binding.root.context).load(product.id).into(binding.ivImagenApi)
-            binding.tvTitleProduct.text = product.title
-        }
-    }
+//    private fun observerListProduct() {
+//
+//        challengeViewModel.getProducts()
+//        challengeViewModel.listProducts.observe(viewLifecycleOwner){ lista ->
+//
+//            val product = lista[2]
+//            Glide.with(binding.root.context).load(product.id).into(binding.ivImagenApi)
+//            binding.tvTitleProduct.text = product.title
+//        }
+//    }
 
 
 }

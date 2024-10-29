@@ -28,33 +28,32 @@ class ItemEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataInventory()
-        controladores()
+//        dataInventory()
+//        controladores()
 
     }
+//
+//    private fun controladores(){
+//        binding.btnEdit.setOnClickListener {
+//            updateInventory()
+//        }
+//    }
+//
+//    private fun dataInventory(){
+//        val receivedBundle = arguments
+//        receivedChallenge = receivedBundle?.getSerializable("dataInventory") as Challenge
+//        binding.etName.setText(receivedChallenge.name)
+//        binding.etPrice.setText(receivedChallenge.price.toString())
+//        binding.etQuantity.setText(receivedChallenge.quantity.toString())
+//
+//    }
+//
+//    private fun updateInventory(){
+//        val name = binding.etName.text.toString()
+//        val price = binding.etPrice.text.toString().toInt()
+//        val quantity = binding.etQuantity.text.toString().toInt()
+//        val challenge = Challenge(receivedChallenge.id, name,price,quantity)
+//        challengeViewModel.updateInventory(challenge)
+//        findNavController().navigate(R.id.action_itemEditFragment_to_homeInventoryFragment)
 
-    private fun controladores(){
-        binding.btnEdit.setOnClickListener {
-            updateInventory()
-        }
     }
-
-    private fun dataInventory(){
-        val receivedBundle = arguments
-        receivedChallenge = receivedBundle?.getSerializable("dataInventory") as Challenge
-        binding.etName.setText(receivedChallenge.name)
-        binding.etPrice.setText(receivedChallenge.price.toString())
-        binding.etQuantity.setText(receivedChallenge.quantity.toString())
-
-    }
-
-    private fun updateInventory(){
-        val name = binding.etName.text.toString()
-        val price = binding.etPrice.text.toString().toInt()
-        val quantity = binding.etQuantity.text.toString().toInt()
-        val challenge = Challenge(receivedChallenge.id, name,price,quantity)
-        challengeViewModel.updateInventory(challenge)
-        findNavController().navigate(R.id.action_itemEditFragment_to_homeInventoryFragment)
-
-    }
-}
