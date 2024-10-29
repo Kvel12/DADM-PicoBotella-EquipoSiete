@@ -7,12 +7,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentHomeInventoryBinding
-import com.example.dadm.view.adapter.ChallengeAdapter
 import com.example.dadm.viewmodel.ChallengeViewModel
-class HomeInventoryFragment : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeInventoryBinding
     private val challengeViewModel: ChallengeViewModel by viewModels()
 
