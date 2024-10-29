@@ -9,7 +9,7 @@
         android:id="@+id/homeInventoryFragment"
         android:name="com.example.dadm.view.fragment.HomeFragment"
         android:label="fragment_home_inventory"
-        tools:layout="@layout/fragment_home_inventory" >
+        tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeInventoryFragment_to_addItemFragment"
             app:destination="@id/addItemFragment" />
