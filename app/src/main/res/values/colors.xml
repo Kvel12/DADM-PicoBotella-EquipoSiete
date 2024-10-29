@@ -8,4 +8,5 @@
     <color name="backgroundGradientCenter">#212121</color>
     <color name="backgroundGradientEnd">#424242</color>
     <color name="buttonChallenge">#FF3D00</color>
+    <color name="appColor">#FF3D00</color>
 </resources>
