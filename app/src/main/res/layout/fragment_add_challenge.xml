@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gradient_Final">
+        android:background="@color/backgroundGradientEnd">
 
         <include
             android:id="@+id/ic_Content_Bar"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/add_challenge"
-            app:fab_colorNormal="@color/color_general"
+            app:fab_colorNormal="@color/appColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

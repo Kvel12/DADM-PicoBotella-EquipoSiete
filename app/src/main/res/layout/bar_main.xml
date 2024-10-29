@@ -12,7 +12,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gradient_Final"
+            android:background="@color/backgroundGradientEnd"
             android:fitsSystemWindows="true"
             tools:ignore="MissingConstraints"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
                     android:id="@+id/iv_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_back2"
+                    android:src="@drawable/ic_back"
                     android:clickable="true"
                     android:background="?selectableItemBackgroundBorderless"
                     />
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/retos"
-                    android:textColor="@color/color_general"
+                    android:textColor="@color/appColor"
                     android:fontFamily="@font/acme"
                     android:textStyle="bold"
                     android:textSize="25sp"
