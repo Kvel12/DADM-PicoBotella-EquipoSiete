@@ -2,7 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="backgroundColor">#A7AED4</color>
-    <color name="backgroundColorItem">#e7e0eb</color>
-    <color name="backgroudColorBtn">#009688</color>
+    <color name="color_general">#FF3D00</color>
+    <color name="gradient_center">#212121</color>
+    <color name="gradient_end">#424242</color>
+    <color name="btn_spin">#1976D2</color>
+    <color name="fondo">#A9A9A9</color>
+
+    <color name="button_Challenge">#D84315</color>
+    <color name="gradient_Final">#899390</color>
 </resources>

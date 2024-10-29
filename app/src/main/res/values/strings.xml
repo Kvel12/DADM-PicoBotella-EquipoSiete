@@ -1,5 +1,16 @@
 <resources>
-    <string name="app_name">Clase9</string>
-    <string name="tituloInventario">Inventario</string>
+    <string name="app_name">pico botella</string>
+    <string name="texto_splash">pico botella</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="btnCloseDialog">Cerrar</string>
+    <string name="retos">Retos</string>
+    <string name="add_challenge">Add Challenge</string>
+    <string name="agregar_reto">Agregar Reto</string>
+    <string name="escriba_el_reto">Escriba el reto</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="guardar">Guardar</string>
+    <string name="title_dialog_eliminar">¿Desear eliminar el siguente reto?</string>
+    <string name="editar_reto">Editar Reto</string>
 </resources>
