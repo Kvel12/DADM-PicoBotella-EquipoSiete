@@ -2,7 +2,8 @@ package com.example.dadm.viewmodel
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.dadm.model.Challenge
 import com.example.dadm.model.ProductModelResponse
 import com.example.dadm.repository.ChallengeRepository
-import com.example.dadm.utils.Constants.TIME
-import com.example.dadm.view.MainActivity
+import com.example.dadm.view.dialog.DialogoAgregarReto.mostrarDialogoAgregarReto
+import com.example.dadm.view.dialog.DialogoMostrarReto.mostrarDialogoReto
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
@@ -27,6 +28,12 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
+
+    private val _estadoMostrarDialogo = MutableLiveData(false)
+    val estadoMostrarDialogo: LiveData<Boolean> get() = _estadoMostrarDialogo
+
+    private val _ListaReto = MutableLiveData<MutableList<Challenge>>()
+    val listaReto: LiveData<MutableList<Challenge>> get() = _ListaReto
 
     //para almacenar una lista de productos
     private val _listProducts = MutableLiveData<MutableList<ProductModelResponse>>()
@@ -51,7 +58,31 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     fun saveInventory(challenge: Challenge) {
         viewModelScope.launch {
 
-            _progresState.value = true
+    fun dialogoMostrarReto(
+        context: Context,
+        audioBackground: MediaPlayer,
+        isMute: Boolean,
+        messageChallenge: String,
+    ){
+        mostrarDialogoReto(context, audioBackground, isMute, messageChallenge)
+    }
+
+    fun estadoMostrarDialogo(estado: Boolean){
+        _estadoMostrarDialogo.value = estado
+    }
+
+    suspend fun wait(time: Int){
+        delay(time*1000L)
+    }
+
+    fun saveChallenge(challenge: Challenge){
+        viewModelScope.launch { try {
+            challengeRepository.saveChallenge(challenge)
+        } catch (e: Exception){}}
+    }
+
+    fun getListChallenge(){
+        viewModelScope.launch {
             try {
                 challengeRepository.saveChallenge(challenge)
                 _progresState.value = false
@@ -61,7 +92,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getListInventory() {
+    fun updateChallenge (challenge: Challenge){
         viewModelScope.launch {
             _progresState.value = true
             try {
@@ -99,12 +130,6 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getProducts() {
-        viewModelScope.launch {
-            _progresState.value = true
-            try {
-                _listProducts.value = challengeRepository.getProducts()
-                _progresState.value = false
 
             } catch (e: Exception) {
                 _progresState.value = false
