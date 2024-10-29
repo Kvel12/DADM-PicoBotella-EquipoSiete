@@ -29,7 +29,7 @@ object DialogoMostrarReto {
         dialogoAlerta.setView(bindingDialogo.root)
 
         // Asigna el mensaje del reto al TextView en el layout del diálogo.
-        bindingDialogo.tvChagenlle.text = mensajeReto
+        bindingDialogo.tvChallenge.text = mensajeReto
 
         // Configura el botón 'Cerrar' para que reproduzca el audio (si no está en silencio) y cierre el diálogo.
         bindingDialogo.btnClose.setOnClickListener {

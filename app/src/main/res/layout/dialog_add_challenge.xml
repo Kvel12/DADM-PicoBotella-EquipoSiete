@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:backgroundTint="@color/color_general"
+                android:backgroundTint="@color/appColor"
                 android:hint="@string/escriba_el_reto" />
 
             <LinearLayout
@@ -55,7 +55,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:backgroundTint="@color/color_general"/>
+                    android:backgroundTint="@color/appColor"/>
 
                 <Button
                     android:id="@+id/btn_Guardar"
@@ -67,7 +67,7 @@
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:enabled="false"
-                    android:backgroundTint="@color/color_general"
+                    android:backgroundTint="@color/appColor"
                     />
             </LinearLayout>
 

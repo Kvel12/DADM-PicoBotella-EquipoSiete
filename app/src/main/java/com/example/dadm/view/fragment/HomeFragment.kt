@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
-import com.example.dadm.databinding.FragmentHomeInventoryBinding
+import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
 import kotlinx.coroutines.runBlocking
 
@@ -19,9 +19,6 @@ class HomeInventoryFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var audioBackground: MediaPlayer
     private lateinit var audioSpinBottle: MediaPlayer
-    private lateinit var audioShowChallenge: MediaPlayer
-    private lateinit var audioButton: MediaPlayer
-    private lateinit var audioSuspense: MediaPlayer
 
     private var isMute: Boolean = true
 
@@ -46,11 +43,8 @@ class HomeInventoryFragment : Fragment() {
     }
 
     private fun mediaController() {
-        audioBackground = MediaPlayer.create(context, R.raw.music_background)
-        audioSpinBottle = MediaPlayer.create(context, R.raw.audio_bottle)
-        audioShowChallenge = MediaPlayer.create(context, R.raw.audio_challenge)
-        audioButton = MediaPlayer.create(context, R.raw.audio_button)
-        audioSuspense = MediaPlayer.create(context, R.raw.audio_suspense)
+        audioBackground = MediaPlayer.create(context, R.raw.background_music)
+        audioSpinBottle = MediaPlayer.create(context, R.raw.spinning_bottle)
         audioBackground.start()
     }
 
@@ -95,19 +89,15 @@ class HomeInventoryFragment : Fragment() {
         challengeViewModel.estadoMostrarDialogo.observe(viewLifecycleOwner) {
             if (it) {
                 runBlocking {
-                    audioSuspense.start()
                     challengeViewModel.wait(3)
                 }
-                audioSuspense.pause()
                 val messageChallenge = "Debes tomar un trago"
                 challengeViewModel.dialogoMostrarReto(
                     requireContext(),
                     audioBackground, isMute,
                     messageChallenge
                 )
-                audioShowChallenge.start()
                 audioSpinBottle.pause()
-                audioButton.pause()
             }
         }
     }
@@ -128,7 +118,6 @@ class HomeInventoryFragment : Fragment() {
     private fun observerRotationBottle() {
         challengeViewModel.statusRotationBottle.observe(viewLifecycleOwner) { statusRotation ->
             if (statusRotation) {
-                audioButton.start()
                 audioBackground.pause()
                 audioSpinBottle.start()
                 challengeViewModel.rotationBottle.observe(viewLifecycleOwner) { rotation ->

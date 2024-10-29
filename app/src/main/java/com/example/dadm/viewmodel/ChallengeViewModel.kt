@@ -45,7 +45,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun splashScreen() {
         viewModelScope.launch {
-            delay(TIME) // Espera el tiempo definido en `Constants.TIME`
+            delay(2000) // Espera el tiempo definido
             _navigateToMain.value = true // Cambia el valor para indicar a la vista que debe navegar
         }
     }
@@ -54,9 +54,6 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     fun resetNavigation() {
         _navigateToMain.value = false
     }
-
-    fun saveInventory(challenge: Challenge) {
-        viewModelScope.launch {
 
     fun dialogoMostrarReto(
         context: Context,
@@ -84,7 +81,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     fun getListChallenge(){
         viewModelScope.launch {
             try {
-                challengeRepository.saveChallenge(challenge)
+                challengeRepository.getListChallenge()
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -96,7 +93,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             _progresState.value = true
             try {
-                _listChallenge.value = challengeRepository.getListChallenge()
+                _listChallenge.value = challengeRepository.updateChallenge(challenge)
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -105,7 +102,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun deleteInventory(challenge: Challenge) {
+    fun deleteChallenge(challenge: Challenge) {
         viewModelScope.launch {
             _progresState.value = true
             try {
@@ -130,16 +127,6 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
-            } catch (e: Exception) {
-                _progresState.value = false
-            }
-        }
-    }
-
-//    fun totalProducto(price: String, quantity: String): Double {
-//        val total = price * quantity
-//        return total.toDouble()
-//    }
 }
+
 
