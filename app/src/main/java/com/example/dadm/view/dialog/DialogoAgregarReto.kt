@@ -1,4 +1,4 @@
-package com.portafoliowebmariano.picobotella.view.dialog
+package com.example.dadm.view.dialog
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import com.example.dadm.viewmodel.ChallengeViewModel
 import com.example.dadm.databinding.DialogAddChallengeBinding
 import com.example.dadm.model.Challenge
 
-object DialogAddChallenge {
+object DialogoAgregarReto {
     fun showDialogAddChallenge(
         context: Context,
         challengeViewModel: ChallengeViewModel,
