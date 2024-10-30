@@ -13,11 +13,11 @@ class ChallengeRepository(val context: Context){
     private var challengeDao:ChallengeDao = ChallengeDB.getDatabase(context).challengeDao()
     private var apiService: ApiService = ApiUtils.getApiService()
 
-    suspend fun saveChallenge(challenge:Challenge){
-         withContext(Dispatchers.IO){
-             challengeDao.saveChallenge(challenge)
-         }
-     }
+    suspend fun saveChallenge(challenge : Challenge){
+        withContext(Dispatchers.IO){
+            challengeDao.saveChallenge(challenge)
+        }
+    }
 
     suspend fun getListChallenge():MutableList<Challenge>{
         return withContext(Dispatchers.IO){

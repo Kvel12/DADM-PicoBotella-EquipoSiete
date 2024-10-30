@@ -6,6 +6,6 @@ import java.io.Serializable
 
 @Entity
 data class Challenge(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     var description: String): Serializable
-

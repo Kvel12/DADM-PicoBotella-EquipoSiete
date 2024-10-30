@@ -4,7 +4,6 @@
 
     <data/>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,23 +50,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
-                    android:text="@string/cancelar"
+                    android:text="@string/boton_cancelar"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:backgroundTint="@color/appColor"/>
+                    android:background="@drawable/rounded_button"
+                   />
 
                 <Button
                     android:id="@+id/btn_Guardar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
-                    android:text="@string/guardar"
+                    android:text="@string/boton_guardar"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:enabled="false"
-                    android:backgroundTint="@color/appColor"
+                    android:background="@drawable/rounded_button"
                     />
             </LinearLayout>
 
