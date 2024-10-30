@@ -27,9 +27,9 @@
         <ImageView
             android:id="@+id/iv_bottle"
             android:layout_width="wrap_content"
-            android:layout_height="400dp"
+            android:layout_height="380dp"
             android:src="@drawable/bottle_corona"
-            app:layout_constraintBottom_toBottomOf="@+id/cl_button"
+            app:layout_constraintBottom_toTopOf="@+id/cl_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_home" />
@@ -61,7 +61,7 @@
                 android:id="@+id/button_animation"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_presion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:lottie_autoPlay="true"
@@ -70,6 +70,18 @@
                 app:lottie_rawRes="@raw/button_animation"
                 />
 
+            <TextView
+                android:id="@+id/tv_presion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Presióname"
+                android:textSize="30sp"
+                android:textColor="@android:color/black"
+                app:layout_constraintTop_toBottomOf="@id/button_animation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

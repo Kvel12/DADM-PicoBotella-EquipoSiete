@@ -32,7 +32,7 @@
             android:text="@string/tituloSplash"
             android:textColor="@color/appColor"
             android:fontFamily="@font/acme"
-            android:textSize="@dimen/dimen_text_splash"
+            android:textSize="50sp"
             android:textStyle="bold"
             />
 
