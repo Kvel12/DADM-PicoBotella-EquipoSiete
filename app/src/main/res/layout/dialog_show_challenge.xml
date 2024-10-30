@@ -63,7 +63,7 @@
             android:paddingHorizontal="50dp"
             android:text="@string/btnCloseDialog"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_Container"
             app:layout_constraintEnd_toEndOf="@+id/cl_Container"
             app:layout_constraintStart_toStartOf="@+id/cl_Container"
