@@ -33,7 +33,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_home" />
-        
+
+        <TextView
+            android:id="@+id/tvCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="32sp"
+            android:textColor="@color/appColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_bottle"
+            app:layout_constraintStart_toStartOf="@+id/iv_bottle"
+            app:layout_constraintEnd_toEndOf="@+id/iv_bottle"
+            app:layout_constraintTop_toTopOf="@+id/iv_bottle"/>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_button"
             android:layout_width="match_parent"
@@ -53,7 +67,8 @@
                 app:lottie_autoPlay="true"
                 app:lottie_colorFilter="@color/buttonChallenge"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/button_animation"/>
+                app:lottie_rawRes="@raw/button_animation"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

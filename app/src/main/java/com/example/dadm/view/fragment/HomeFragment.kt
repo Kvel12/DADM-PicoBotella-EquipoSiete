@@ -15,15 +15,13 @@ import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
 import kotlinx.coroutines.runBlocking
 
-class HomeInventoryFragment : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var audioBackground: MediaPlayer
     private lateinit var audioSpinBottle: MediaPlayer
 
     private var isMute: Boolean = true
-
     private val challengeViewModel: ChallengeViewModel by viewModels()
-
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -51,67 +49,80 @@ class HomeInventoryFragment : Fragment() {
     private fun controladores(view: View) {
         navController = Navigation.findNavController(view)
 
-        binding.icContainerMenu.icRules.setOnClickListener {
+        binding.toolbarHome.icRules.setOnClickListener {
             audioBackground.pause()
-            findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
-            challengeViewModel.statusShowDialog(false)
+//            findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
+            challengeViewModel.estadoMostrarDialogo(false)
         }
 
-        binding.btnSpin.setOnClickListener {
+        binding.buttonAnimation.setOnClickListener {
             challengeViewModel.spinBottle()
         }
-        binding.icContainerMenu.icMuteOff.setOnClickListener {
+        binding.toolbarHome.icMuteOff.setOnClickListener {
             isMute = true
-            binding.icContainerMenu.icMuteOn.isVisible = isMute
-            binding.icContainerMenu.icMuteOff.isVisible = !isMute
+            binding.toolbarHome.icMuteOn.isVisible = isMute
+            binding.toolbarHome.icMuteOff.isVisible = !isMute
             audioBackground.pause()
 
         }
-        binding.icContainerMenu.icMuteOn.setOnClickListener {
+        binding.toolbarHome.icMuteOn.setOnClickListener {
             isMute = false
-            binding.icContainerMenu.icMuteOff.isVisible = !isMute
-            binding.icContainerMenu.icMuteOn.isVisible = isMute
+            binding.toolbarHome.icMuteOff.isVisible = !isMute
+            binding.toolbarHome.icMuteOn.isVisible = isMute
             audioBackground.start()
         }
-        binding.icContainerMenu.icAddChallenge.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_addChallengeFragment)
+        binding.toolbarHome.icAddChallenge.setOnClickListener {
+//            findNavController().navigate(R.id.action_homeFragment_to_addChallengeFragment)
         }
     }
 
     private fun observerViewModel() {
         observerRotationBottle()
         observerEnableButton()
-        observerEnableStreamers()
+//      observerEnableStreamers()
         observerDialogChallenge()
+        observerCountdown()
     }
 
     private fun observerDialogChallenge() {
-        challengeViewModel.estadoMostrarDialogo.observe(viewLifecycleOwner) {
-            if (it) {
-                runBlocking {
-                    challengeViewModel.wait(3)
-                }
+        // Observar el estado de visibilidad del diálogo
+        challengeViewModel.statusShowDialog.observe(viewLifecycleOwner) { shouldShowDialog ->
+            if (shouldShowDialog) {
+                // Pausar el audio de fondo mientras el diálogo está activo
+                audioBackground.pause()
+
+                // Mostrar el diálogo con el mensaje de desafío
                 val messageChallenge = "Debes tomar un trago"
                 challengeViewModel.dialogoMostrarReto(
                     requireContext(),
-                    audioBackground, isMute,
+                    audioBackground,
+                    isMute,
                     messageChallenge
                 )
-                audioSpinBottle.pause()
+
+                // Restablece el estado para que no se muestre continuamente
+                challengeViewModel.resetStatusShowDialog()
+
+                // Reanuda el audio de fondo después de cerrar el diálogo
+                audioBackground.start()
             }
         }
     }
 
-    private fun observerEnableStreamers() {
-        challengeViewModel.enableStreamers.observe(viewLifecycleOwner) { enableStreamer ->
-            binding.lottieCerpentina.isVisible = enableStreamer
-            binding.lottieCerpentina.playAnimation()
-        }
-    }
+
+
+//    private fun observerEnableStreamers() {
+//        challengeViewModel.enableStreamers.observe(viewLifecycleOwner) { enableStreamer ->
+//            binding.lottieCerpentina.isVisible = enableStreamer
+//            binding.lottieCerpentina.playAnimation()
+//        }
+//    }
 
     private fun observerEnableButton() {
         challengeViewModel.enableButton.observe(viewLifecycleOwner) { enableButton ->
-            binding.btnSpin.isVisible = enableButton
+            // Verificar si la botella está girando o si la cuenta regresiva está activa
+            val isCountdownActive = challengeViewModel.countdown.value != null && challengeViewModel.countdown.value!! > 0
+            binding.buttonAnimation.isVisible = enableButton && !isCountdownActive && !challengeViewModel.statusRotationBottle.value!!
         }
     }
 
@@ -127,6 +138,32 @@ class HomeInventoryFragment : Fragment() {
 
         }
     }
+
+    private fun observerCountdown() {
+        challengeViewModel.countdown.observe(viewLifecycleOwner) { countdownValue ->
+            if (countdownValue != null) {
+                // Mostrar la cuenta regresiva en pantalla
+                binding.tvCountdown.isVisible = true
+                binding.tvCountdown.text = countdownValue.toString()
+
+                // Ocultar el botón mientras la cuenta regresiva está activa
+                binding.buttonAnimation.isVisible = false
+            }
+
+            if (countdownValue == 0) {
+                // Ocultar la cuenta regresiva al finalizar
+                binding.tvCountdown.isVisible = false
+
+                // Mostrar el botón nuevamente después de la cuenta regresiva
+                binding.buttonAnimation.isVisible = true
+
+                // Aquí activamos el estado para que el cuadro de diálogo de reto se muestre
+                challengeViewModel.setStatusShowDialog(true)
+            }
+        }
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

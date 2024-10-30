@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeInventoryFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/homeInventoryFragment"
+        android:id="@+id/homeFragment"
         android:name="com.example.dadm.view.fragment.HomeFragment"
-        android:label="fragment_home_inventory"
+        android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeInventoryFragment_to_addItemFragment"
