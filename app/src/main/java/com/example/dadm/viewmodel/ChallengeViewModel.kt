@@ -2,7 +2,8 @@ package com.example.dadm.viewmodel
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.dadm.model.Challenge
 import com.example.dadm.model.ProductModelResponse
 import com.example.dadm.repository.ChallengeRepository
-import com.example.dadm.utils.Constants.TIME
-import com.example.dadm.view.MainActivity
+import com.example.dadm.view.dialog.DialogoAgregarReto.mostrarDialogoAgregarReto
+import com.example.dadm.view.dialog.DialogoMostrarReto.mostrarDialogoReto
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
@@ -28,6 +29,12 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _progresState = MutableLiveData(false)
     val progresState: LiveData<Boolean> = _progresState
 
+    private val _estadoMostrarDialogo = MutableLiveData(false)
+    val estadoMostrarDialogo: LiveData<Boolean> get() = _estadoMostrarDialogo
+
+    private val _ListaReto = MutableLiveData<MutableList<Challenge>>()
+    val listaReto: LiveData<MutableList<Challenge>> get() = _ListaReto
+
     //para almacenar una lista de productos
     private val _listProducts = MutableLiveData<MutableList<ProductModelResponse>>()
     val listProducts: LiveData<MutableList<ProductModelResponse>> = _listProducts
@@ -38,7 +45,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun splashScreen() {
         viewModelScope.launch {
-            delay(TIME) // Espera el tiempo definido en `Constants.TIME`
+            delay(2000) // Espera el tiempo definido
             _navigateToMain.value = true // Cambia el valor para indicar a la vista que debe navegar
         }
     }
@@ -48,36 +55,45 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         _navigateToMain.value = false
     }
 
-    fun addChallenge(challenge: Challenge) {
+    fun dialogoMostrarReto(
+        context: Context,
+        audioBackground: MediaPlayer,
+        isMute: Boolean,
+        messageChallenge: String,
+    ){
+        mostrarDialogoReto(context, audioBackground, isMute, messageChallenge)
+    }
+
+    fun estadoMostrarDialogo(estado: Boolean){
+        _estadoMostrarDialogo.value = estado
+    }
+
+    suspend fun wait(time: Int){
+        delay(time*1000L)
+    }
+
+    fun saveChallenge(challenge: Challenge){
+        viewModelScope.launch { try {
+            challengeRepository.saveChallenge(challenge)
+        } catch (e: Exception){}}
+    }
+
+    fun getListChallenge(){
         viewModelScope.launch {
             try {
-                challengeRepository.saveChallenge(challenge)
+                challengeRepository.getListChallenge()
+                _progresState.value = false
             } catch (e: Exception) {
-
+                _progresState.value = false
             }
         }
     }
 
-
-
-    fun saveInventory(challenge: Challenge) {
+    fun updateChallenge (challenge: Challenge){
         viewModelScope.launch {
-
             _progresState.value = true
             try {
-                challengeRepository.saveChallenge(challenge)
-                _progresState.value = false
-            } catch (e: Exception) {
-                _progresState.value = false
-            }
-        }
-    }
-
-    fun getListInventory() {
-        viewModelScope.launch {
-            _progresState.value = true
-            try {
-                _listChallenge.value = challengeRepository.getListChallenge()
+                _listChallenge.value = challengeRepository.updateChallenge(challenge)
                 _progresState.value = false
             } catch (e: Exception) {
                 _progresState.value = false
@@ -86,7 +102,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun deleteInventory(challenge: Challenge) {
+    fun deleteChallenge(challenge: Challenge) {
         viewModelScope.launch {
             _progresState.value = true
             try {
@@ -111,22 +127,6 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getProducts() {
-        viewModelScope.launch {
-            _progresState.value = true
-            try {
-                _listProducts.value = challengeRepository.getProducts()
-                _progresState.value = false
-
-            } catch (e: Exception) {
-                _progresState.value = false
-            }
-        }
-    }
-
-//    fun totalProducto(price: String, quantity: String): Double {
-//        val total = price * quantity
-//        return total.toDouble()
-//    }
 }
+
 
