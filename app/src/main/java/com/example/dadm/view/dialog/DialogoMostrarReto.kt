@@ -4,7 +4,9 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
 import com.example.dadm.databinding.DialogShowChallengeBinding
+import com.example.dadm.webservice.PokemonRepository
 
 object DialogoMostrarReto {
 
@@ -30,6 +32,16 @@ object DialogoMostrarReto {
 
         // Asigna el mensaje del reto al TextView en el layout del diálogo.
         bindingDialogo.tvChallenge.text = mensajeReto
+
+        val pokemonRepository = PokemonRepository()
+        pokemonRepository.getRandomPokemon { pokemon ->
+            pokemon?.let {
+                bindingDialogo.tvChallenge.text = "${mensajeReto}\n\n Pokémon: ${it.name}"
+                Glide.with(contexto)
+                    .load(it.img)
+                    .into(bindingDialogo.ivChallenge)
+            }
+        }
 
         // Configura el botón 'Cerrar' para que reproduzca el audio (si no está en silencio) y cierre el diálogo.
         bindingDialogo.btnClose.setOnClickListener {
