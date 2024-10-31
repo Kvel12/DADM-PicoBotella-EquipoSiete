@@ -1,5 +1,6 @@
 package com.example.dadm.view.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class AgregarRetoFragment: Fragment() {
         observarListaRetos() // Llama al método para observar los cambios en la lista de retos
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observarListaRetos() {
         vistaModeloReto.getListChallenge() // Solicita la lista de retos desde el ViewModel
         vistaModeloReto.listChallenge.observe(viewLifecycleOwner) { listaRetos ->

@@ -51,12 +51,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
                     android:text="@string/cancelar"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:background="@drawable/bg_button_challege"/>
+                    android:backgroundTint="@color/appColor"
+                    />
 
                 <Button
                     android:id="@+id/btn_Guardar"

@@ -38,7 +38,7 @@ object DialogoAgregarReto {
         bindingDialogo.btnGuardar.setOnClickListener {
             // Obtiene el texto del campo de entrada y crea un nuevo objeto 'Challenge' con la descripción.
             val descripcionReto = bindingDialogo.etContent.text.toString().trim()
-            val nuevoReto = Challenge(description = descripcionReto)
+            val nuevoReto = Challenge(descripcion = descripcionReto)
 
             // Guarda el nuevo reto utilizando el ViewModel y cierra el diálogo.
             challengeViewModel.saveChallenge(nuevoReto)

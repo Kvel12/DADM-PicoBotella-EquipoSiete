@@ -2,12 +2,7 @@ package com.example.dadm.view.dialog
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.app.Dialog
-import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import androidx.appcompat.app.AlertDialog
-import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import com.example.dadm.model.Challenge
 import com.example.dadm.databinding.DialogDeleteChallengeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
@@ -30,7 +25,7 @@ object DialogoEliminarReto {
         dialogoAlerta.setView(bindingDialogo.root)
 
         // Establece el texto actual de la descripción del reto en el campo de entrada.
-        bindingDialogo.etContent.setText(reto.description)
+        bindingDialogo.etContent.setText(reto.descripcion)
 
         // Configura el botón 'Cancelar' para cerrar el diálogo sin guardar.
         bindingDialogo.cancelButton.setOnClickListener {
@@ -39,7 +34,7 @@ object DialogoEliminarReto {
 
         bindingDialogo.okButton.setOnClickListener{
             val descripcionReto = bindingDialogo.etContent.text.toString().trim()
-            val eliminar = Challenge(reto.id, description = descripcionReto)
+            val eliminar = Challenge(reto.id,descripcionReto)
             challengeViewModel.deleteChallenge(eliminar)
             dialogoAlerta.dismiss()
 
