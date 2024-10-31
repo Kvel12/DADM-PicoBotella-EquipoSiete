@@ -25,10 +25,10 @@ object DialogoEliminarReto {
         dialogoAlerta.setView(bindingDialogo.root)
 
         // Establece el texto actual de la descripción del reto en el campo de entrada.
-        bindingDialogo.etContent.setText(reto.descripcion)
+        //bindingDialogo.etContent.setText(reto.descripcion)
 
         // Configura el botón 'Cancelar' para cerrar el diálogo sin guardar.
-        bindingDialogo.cancelButton.setOnClickListener {
+        /*bindingDialogo.cancelButton.setOnClickListener {
             dialogoAlerta.dismiss()
         }
 
@@ -44,7 +44,7 @@ object DialogoEliminarReto {
             //muestra el cuadro de dialogo
             dialogoAlerta.show()
 
-        }
+        }*/
 
 
 

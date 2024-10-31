@@ -37,15 +37,13 @@ class AgregarRetoFragment: Fragment() {
     }
 
     private fun configurarControladores(){
-        // Configura el botón de retroceso en la barra de contenido
         vistaBinding.icContentBar.ivBack.setOnClickListener{
-            findNavController().popBackStack() // Navega hacia atrás en la pila de fragmentos
+            findNavController().popBackStack()
         }
 
-        // Configura el botón de agregar reto
-        vistaBinding.afaButton.setOnClickListener{
-            mostrarDialogoAgregarReto(requireContext(), vistaModeloReto){
-                observarListaRetos() // Actualiza la lista de retos
+        vistaBinding.afaButton.setOnClickListener {
+            mostrarDialogoAgregarReto(requireContext(), vistaModeloReto) {
+                vistaModeloReto.getListChallenge() // Actualiza la lista después de agregar un reto
             }
         }
     }

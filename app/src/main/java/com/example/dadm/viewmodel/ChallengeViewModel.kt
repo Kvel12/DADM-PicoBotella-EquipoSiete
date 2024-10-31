@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
@@ -12,14 +13,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.dadm.model.Challenge
-import com.example.dadm.model.ProductModelResponse
 import com.example.dadm.repository.ChallengeRepository
-import com.example.dadm.view.dialog.DialogoAgregarReto.mostrarDialogoAgregarReto
 import com.example.dadm.view.dialog.DialogoMostrarReto.mostrarDialogoReto
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 
 class ChallengeViewModel(application: Application) : AndroidViewModel(application) {
@@ -59,6 +56,8 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     private var lastAngle = 0f // Variable para almacenar el último ángulo en el que se detuvo la botella
 
+    private val _randomChallenge = MutableLiveData<Challenge?>()
+    val randomChallenge: LiveData<Challenge?> get() = _randomChallenge
 
 
 
@@ -70,12 +69,35 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _navigateToMain = MutableLiveData<Boolean>()
     val navigateToMain: LiveData<Boolean> get() = _navigateToMain
 
-    fun splashScreen() {
-        viewModelScope.launch {
-            delay(2000) // Espera el tiempo definido
-            _navigateToMain.value = true // Cambia el valor para indicar a la vista que debe navegar
+
+    fun getRandomChallenge() {
+        _listChallenge.value?.let { challenges ->
+            if (challenges.isNotEmpty()) {
+                // Selecciona un reto aleatorio
+                val randomIndex = (0 until challenges.size).random()
+                _randomChallenge.value = challenges[randomIndex]
+            } else {
+                _randomChallenge.value = null // No hay retos disponibles
+            }
         }
     }
+
+
+    // Agregar este método en ChallengeViewModel
+    fun obtenerRetoAleatorio(): Challenge? {
+        return _listChallenge.value?.let { listaRetos ->
+            if (listaRetos.isNotEmpty()) listaRetos.random() else null
+        }
+    }
+
+
+    fun splashScreen() {
+        viewModelScope.launch {  // Inicia una corrutina
+            delay(2000)          // Pausa la ejecución de la corrutina durante 2 segundos (2000 ms)
+            _navigateToMain.value = true  // Cambia el valor de la variable LiveData para desencadenar la navegación
+        }
+    }
+
 
     // Reset del estado de navegación, si es necesario
     fun resetNavigation() {
@@ -110,15 +132,17 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         } catch (e: Exception){}}
     }
 
-    fun getListChallenge(){
+    fun getListChallenge() {
         viewModelScope.launch {
             try {
-                _listChallenge.value = challengeRepository.getListChallenge()
+                val challenges = challengeRepository.getListChallenge()
+                _listChallenge.value = challenges.toMutableList() // Asegúrate de que esté actualizando el LiveData
             } catch (e: Exception) {
-
+                Log.e("ChallengeViewModel", "Error al obtener la lista de retos: ${e.message}")
             }
         }
     }
+
 
     fun updateChallenge (challenge: Challenge){
         viewModelScope.launch {
@@ -211,5 +235,3 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
 
 }
-
-

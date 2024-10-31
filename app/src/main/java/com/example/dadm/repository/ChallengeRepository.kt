@@ -3,15 +3,11 @@ import android.content.Context
 import com.example.dadm.data.ChallengeDB
 import com.example.dadm.data.ChallengeDao
 import com.example.dadm.model.Challenge
-import com.example.dadm.model.ProductModelResponse
-import com.example.dadm.webservice.ApiService
-import com.example.dadm.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ChallengeRepository(val context: Context){
     private var challengeDao:ChallengeDao = ChallengeDB.getDatabase(context).challengeDao()
-    private var apiService: ApiService = ApiUtils.getApiService()
 
     suspend fun saveChallenge(challenge : Challenge){
         withContext(Dispatchers.IO){
@@ -37,16 +33,4 @@ class ChallengeRepository(val context: Context){
         }
     }
 
-    suspend fun getProducts(): MutableList<ProductModelResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.getProducts()
-                response
-            } catch (e: Exception) {
-
-                e.printStackTrace()
-                mutableListOf()
-            }
-        }
-    }
 }
