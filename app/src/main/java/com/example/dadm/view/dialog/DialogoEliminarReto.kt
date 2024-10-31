@@ -24,16 +24,19 @@ object DialogoEliminarReto {
         dialogoAlerta.setCancelable(false)
         dialogoAlerta.setView(bindingDialogo.root)
 
+        //muestra el cuadro de dialogo
+        dialogoAlerta.show()
+
         // Establece el texto actual de la descripción del reto en el campo de entrada.
-        //bindingDialogo.etContent.setText(reto.descripcion)
+        bindingDialogo.tvDialogMessage.setText(reto.descripcion)
 
         // Configura el botón 'Cancelar' para cerrar el diálogo sin guardar.
-        /*bindingDialogo.cancelButton.setOnClickListener {
+        bindingDialogo.btnNO.setOnClickListener {
             dialogoAlerta.dismiss()
         }
 
-        bindingDialogo.okButton.setOnClickListener{
-            val descripcionReto = bindingDialogo.etContent.text.toString().trim()
+        bindingDialogo.btnSI.setOnClickListener{
+            val descripcionReto = bindingDialogo.tvDialogMessage.text.toString().trim()
             val eliminar = Challenge(reto.id,descripcionReto)
             challengeViewModel.deleteChallenge(eliminar)
             dialogoAlerta.dismiss()
@@ -41,15 +44,11 @@ object DialogoEliminarReto {
             //se actualiza la lista de retos
             actualizarLista.invoke()
 
-            //muestra el cuadro de dialogo
-            dialogoAlerta.show()
 
-        }*/
+        }
 
 
 
 
     }
 }
-
-
