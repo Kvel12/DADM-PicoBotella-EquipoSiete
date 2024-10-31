@@ -39,7 +39,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Reto que debes hacer" />
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -58,7 +58,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_Close"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:background="@drawable/bg_button_challege"
             android:paddingHorizontal="50dp"
             android:text="@string/btnCloseDialog"
