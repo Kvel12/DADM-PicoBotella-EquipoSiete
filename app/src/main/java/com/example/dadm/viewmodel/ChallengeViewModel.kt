@@ -63,6 +63,7 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
 
 
+
 //    //para almacenar una lista de productos
 //    private val _listProducts = MutableLiveData<MutableList<ProductModelResponse>>()
 //    val listProducts: LiveData<MutableList<ProductModelResponse>> = _listProducts
@@ -208,6 +209,9 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     fun resetStatusShowDialog() {
         _statusShowDialog.value = false
     }
+
+
+
 }
 
 

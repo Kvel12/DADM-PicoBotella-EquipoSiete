@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
         controladores(view)
         observerViewModel()
         mediaController()
+
     }
 
     private fun mediaController() {
@@ -83,6 +84,16 @@ class HomeFragment : Fragment() {
             }
             view.context.startActivity(intent)
 
+        }
+
+        binding.toolbarHome.icShareApp.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "App pico botella")
+                val shareMessage = "App pico botella\n¡Solo los valientes lo juegan !!\nhttps://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es"
+                putExtra(Intent.EXTRA_TEXT, shareMessage)
+            }
+            startActivity(Intent.createChooser(shareIntent, "Compartir usando"))
         }
 
     }
@@ -173,6 +184,8 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
 
 
 
