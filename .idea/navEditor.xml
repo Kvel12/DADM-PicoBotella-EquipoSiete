@@ -8,35 +8,35 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="addItemFragment">
+                  <entry key="agregarRetoFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="63" />
+                            <option name="x" value="243" />
+                            <option name="y" value="60" />
                           </Point>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="homeInventoryFragment">
+                  <entry key="homeFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="355" />
+                            <option name="x" value="2" />
+                            <option name="y" value="19" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_homeInventoryFragment_to_addItemFragment">
+                            <entry key="action_homeFragment_to_agregarRetoFragment2">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_homeInventoryFragment_to_itemDetailsFragment">
+                            <entry key="action_homeFragment_to_rulesPlayFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -46,44 +46,14 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="itemDetailsFragment">
+                  <entry key="rulesPlayFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="419" />
+                            <option name="x" value="117" />
+                            <option name="y" value="-342" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_itemDetailsFragment_to_itemEditFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="itemEditFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="376" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_itemEditFragment_to_homeInventoryFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
