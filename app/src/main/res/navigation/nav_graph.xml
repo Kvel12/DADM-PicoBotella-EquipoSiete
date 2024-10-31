@@ -8,14 +8,14 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.dadm.view.fragment.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home Fragment"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeInventoryFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+            android:id="@+id/action_homeFragment_to_rulesChallenge"
+            app:destination="@id/rulesChallenge"/>
         <action
-            android:id="@+id/action_homeInventoryFragment_to_itemDetailsFragment"
-            app:destination="@id/itemDetailsFragment" />
+            android:id="@+id/action_homeFragment_to_addChallengeFragment"
+            app:destination="@id/addChallengeFragment"/>
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
