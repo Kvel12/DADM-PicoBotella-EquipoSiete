@@ -9,4 +9,5 @@
     <color name="backgroundGradientEnd">#424242</color>
     <color name="buttonChallenge">#FF3D00</color>
     <color name="appColor">#FF3D00</color>
+    <color name="background_rules">#333333</color>
 </resources>

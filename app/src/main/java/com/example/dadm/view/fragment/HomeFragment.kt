@@ -49,9 +49,9 @@ class HomeFragment : Fragment() {
     private fun controladores(view: View) {
         navController = Navigation.findNavController(view)
 
-        binding.toolbarHome.icRules.setOnClickListener {
+        binding.toolbarHome.icAddChallenge.setOnClickListener {
             audioBackground.pause()
-//            findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_agregarRetoFragment2)
             challengeViewModel.estadoMostrarDialogo(false)
         }
 
@@ -71,8 +71,8 @@ class HomeFragment : Fragment() {
             binding.toolbarHome.icMuteOn.isVisible = isMute
             audioBackground.start()
         }
-        binding.toolbarHome.icAddChallenge.setOnClickListener {
-//            findNavController().navigate(R.id.action_homeFragment_to_addChallengeFragment)
+        binding.toolbarHome.icRules.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
         }
     }
 
