@@ -14,23 +14,29 @@ import com.example.dadm.R
 import com.example.dadm.view.MainActivity
 import com.example.dadm.viewmodel.ChallengeViewModel
 
+// Clase Splash para mostrar la pantalla de bienvenida al iniciar la app
 class Splash : AppCompatActivity() {
 
+    // Inicializa una instancia de ChallengeViewModel usando el patrón viewModels()
     private val challengeViewModel: ChallengeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.activity_splash) // Establece el diseño de la actividad
 
-        // Configura la pantalla completa
+        // Configuración para que la actividad esté en pantalla completa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Para Android 11 y versiones superiores
             window.setDecorFitsSystemWindows(false)
             val controller = window.insetsController
             controller?.apply {
+                // Oculta la barra de estado y la barra de navegación
                 hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                // Permite mostrar las barras temporalmente con un gesto de deslizamiento
                 systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
+            // Para versiones de Android anteriores a la 11 (usando métodos depreciados)
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = (
                     View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -39,22 +45,23 @@ class Splash : AppCompatActivity() {
                     )
         }
 
-        // Observador para navegar a la MainActivity cuando esté listo
+        // Observador de LiveData para la navegación a MainActivity cuando esté listo
         challengeViewModel.navigateToMain.observe(this, Observer { shouldNavigate ->
             if (shouldNavigate) {
+                // Inicia la actividad principal (MainActivity)
                 startActivity(Intent(this, MainActivity::class.java))
-                finish()
-                challengeViewModel.resetNavigation() // Resetear el estado de navegación
+                finish() // Finaliza la actividad Splash para que no se pueda volver a ella
+                challengeViewModel.resetNavigation() // Restaura el estado de navegación a false
             }
         })
 
-        // Llama a la función para iniciar el temporizador
+        // Llama a la función splashScreen() en el ViewModel para iniciar el temporizador o carga inicial
         challengeViewModel.splashScreen()
 
-        // Configura el comportamiento del botón de retroceso para que no haga nada
+        // Configuración para que el botón de retroceso no haga nada en esta pantalla
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // Dejar vacío para deshabilitar el botón de retroceso
+                // Vacío para deshabilitar el botón de retroceso mientras está en la pantalla Splash
             }
         })
     }

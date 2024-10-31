@@ -45,9 +45,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun mediaController() {
-        audioBackground = MediaPlayer.create(context, R.raw.background_music)
+        // Inicializa el audio de fondo y lo configura para que se reproduzca en loop
+        audioBackground = MediaPlayer.create(context, R.raw.background_music).apply {
+            isLooping = true  // Establece la reproducción en bucle
+            start()           // Inicia la reproducción del audio
+        }
+
+        // Inicializa el audio para el giro de la botella (sin bucle)
         audioSpinBottle = MediaPlayer.create(context, R.raw.spinning_bottle)
-        audioBackground.start()
     }
 
     private fun controladores(view: View) {
@@ -125,12 +130,15 @@ class HomeFragment : Fragment() {
                 // Restablece el estado para que no se muestre continuamente
                 challengeViewModel.resetStatusShowDialog()
 
-                // Reanuda el audio de fondo después de cerrar el diálogo
-                audioBackground.start()
+                // Reanuda el audio de fondo después de cerrar el diálogo si no está en modo silencio
+                if (!isMute) {
+                    audioBackground.start()
+                }
             }
         }
     }
-    
+
+
 
     private fun observerEnableButton() {
         challengeViewModel.enableButton.observe(viewLifecycleOwner) { enableButton ->

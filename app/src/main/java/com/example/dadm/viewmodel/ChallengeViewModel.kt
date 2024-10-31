@@ -71,11 +71,12 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     val navigateToMain: LiveData<Boolean> get() = _navigateToMain
 
     fun splashScreen() {
-        viewModelScope.launch {
-            delay(2000) // Espera el tiempo definido
-            _navigateToMain.value = true // Cambia el valor para indicar a la vista que debe navegar
+        viewModelScope.launch {  // Inicia una corrutina
+            delay(2000)          // Pausa la ejecución de la corrutina durante 2 segundos (2000 ms)
+            _navigateToMain.value = true  // Cambia el valor de la variable LiveData para desencadenar la navegación
         }
     }
+
 
     // Reset del estado de navegación, si es necesario
     fun resetNavigation() {
