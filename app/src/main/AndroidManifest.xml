@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity debe ser declarada aquí -->
+        <!-- MainActivity esta declarada aquí -->
         <activity
             android:name=".view.MainActivity"
             android:exported="true">
