@@ -1,5 +1,7 @@
 package com.example.dadm.view.fragment
+import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,6 +76,15 @@ class HomeFragment : Fragment() {
         binding.toolbarHome.icRules.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
         }
+
+        binding.toolbarHome.icStar.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es")
+            }
+            view.context.startActivity(intent)
+
+        }
+
     }
 
     private fun observerViewModel() {
