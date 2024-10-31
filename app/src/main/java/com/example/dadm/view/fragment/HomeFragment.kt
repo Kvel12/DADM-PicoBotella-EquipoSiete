@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -41,13 +42,23 @@ class HomeFragment : Fragment() {
         controladores(view)
         observerViewModel()
         mediaController()
+        challengeViewModel.getListChallenge()
+
+        observerListChallenge() // Añade un método para observar la lista de retos
+
+
 
     }
 
     private fun mediaController() {
-        audioBackground = MediaPlayer.create(context, R.raw.background_music)
+        // Inicializa el audio de fondo y lo configura para que se reproduzca en loop
+        audioBackground = MediaPlayer.create(context, R.raw.background_music).apply {
+            isLooping = true  // Establece la reproducción en bucle
+            start()           // Inicia la reproducción del audio
+        }
+
+        // Inicializa el audio para el giro de la botella (sin bucle)
         audioSpinBottle = MediaPlayer.create(context, R.raw.spinning_bottle)
-        audioBackground.start()
     }
 
     private fun controladores(view: View) {
@@ -74,9 +85,9 @@ class HomeFragment : Fragment() {
             binding.toolbarHome.icMuteOn.isVisible = isMute
             audioBackground.start()
         }
-        //binding.toolbarHome.icRules.setOnClickListener {
-          //  findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
-        //}
+        binding.toolbarHome.icRules.setOnClickListener {
+          findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
+        }
 
         binding.toolbarHome.icStar.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -101,7 +112,6 @@ class HomeFragment : Fragment() {
     private fun observerViewModel() {
         observerRotationBottle()
         observerEnableButton()
-//      observerEnableStreamers()
         observerDialogChallenge()
         observerCountdown()
     }
@@ -113,24 +123,46 @@ class HomeFragment : Fragment() {
                 // Pausar el audio de fondo mientras el diálogo está activo
                 audioBackground.pause()
 
-                // Mostrar el diálogo con el mensaje de desafío
-                val messageChallenge = "Debes tomar un trago"
-                challengeViewModel.dialogoMostrarReto(
-                    requireContext(),
-                    audioBackground,
-                    isMute,
-                    messageChallenge
-                )
+                // Observar la lista de retos para mostrar uno aleatorio
+                challengeViewModel.listChallenge.observe(viewLifecycleOwner) { listaRetos ->
+                    if (listaRetos.isNotEmpty()) {
+                        // Seleccionar un reto aleatorio y mostrar el diálogo
+                        val retoAleatorio = listaRetos.random()
+                        challengeViewModel.dialogoMostrarReto(
+                            requireContext(),
+                            audioBackground,
+                            isMute,
+                            retoAleatorio.descripcion // Muestra el mensaje del reto aleatorio
+                        )
+                    } else {
+                        // Opcional: manejar el caso en que no haya retos (e.g., mostrar un Toast)
+                        Toast.makeText(context, "No hay retos disponibles", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
                 // Restablece el estado para que no se muestre continuamente
                 challengeViewModel.resetStatusShowDialog()
 
-                // Reanuda el audio de fondo después de cerrar el diálogo
-                audioBackground.start()
+                // Reanuda el audio de fondo después de cerrar el diálogo si no está en modo silencio
+                if (!isMute) {
+                    audioBackground.start()
+                }
             }
         }
     }
-    
+
+    private fun observerListChallenge() {
+        challengeViewModel.listChallenge.observe(viewLifecycleOwner) { listaRetos ->
+            // Actualiza tu UI aquí, por ejemplo, configurando el RecyclerView
+            if (listaRetos.isNotEmpty()) {
+                // Configura el RecyclerView o muestra un reto aleatorio
+            } else {
+                // Manejar el caso en que no hay retos
+            }
+        }
+    }
+
+
 
     private fun observerEnableButton() {
         challengeViewModel.enableButton.observe(viewLifecycleOwner) { enableButton ->

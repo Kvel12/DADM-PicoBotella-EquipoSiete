@@ -52,5 +52,3 @@ object DialogoEliminarReto {
 
     }
 }
-
-
