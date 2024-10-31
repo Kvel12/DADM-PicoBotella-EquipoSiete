@@ -13,7 +13,7 @@
     <string name="escriba_el_reto">Escribe el reto</string>
     <string name="cancelar">Cancelar</string>
     <string name="guardar">Guardar</string>
-    <string name="title_dialog_eliminar">¿Desear eliminar el siguente reto?</string>
+    <string name="title_dialog_eliminar">¿Desear eliminar el siguente reto? :</string>
     <string name="reglas_del_juego">Reglas del juego</string>
     <string name="editar_reto">Editar Reto</string>
     <string name="titulo_como_se_juega">¿Como se juega?</string>
@@ -22,4 +22,6 @@
     <string name="titulo_quien_gana">¿Quien gana?</string>
     <string name="quien_gana">Gana el ultimo jugador que no abandone el juego </string>
     <string name="presioname">Presióname</string>
+    <string name="NO_buttom">NO</string>
+    <string name="SI_buttom">SI</string>
 </resources>
