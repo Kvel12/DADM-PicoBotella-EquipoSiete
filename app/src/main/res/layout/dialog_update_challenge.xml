@@ -28,7 +28,8 @@
                 android:padding="10dp"
                 android:text="@string/editar_reto"
                 android:textColor="@color/black"
-                android:textSize="25sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_content"

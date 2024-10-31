@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.dadm.databinding.ItemChallengeBinding
 import com.example.dadm.model.Challenge
 import com.example.dadm.view.dialog.DialogoEditarReto.mostrarDialogoEditarReto
-import com.example.dadm.view.dialog.EliminarDialogoReto
+//import com.example.dadm.view.dialog.EliminarDialogoReto
 import com.example.dadm.viewmodel.ChallengeViewModel
 
 
@@ -31,8 +31,8 @@ class ChallengeViewHolder(binding: ItemChallengeBinding, challengeViewModel: Cha
         // Configura el evento del botón de eliminar reto.
         binding.ivDelete.setOnClickListener {
             // Crea y muestra un diálogo de confirmación para eliminar el reto actual.
-            val dialog = EliminarDialogoReto(binding.root.context, viewModel, challenge)
-            dialog.show()
+            //val dialog = EliminarDialogoReto(binding.root.context, viewModel, challenge)
+            //dialog.show()
         }
 
         // Configura el evento del botón de editar reto.
