@@ -10,7 +10,7 @@
     <string name="retos">Retos</string>
     <string name="add_challenge">Add Challenge</string>
     <string name="agregar_reto">Agregar Reto</string>
-    <string name="escriba_el_reto">Escriba el reto</string>
+    <string name="escriba_el_reto">Escribe el reto</string>
     <string name="cancelar">Cancelar</string>
     <string name="guardar">Guardar</string>
     <string name="title_dialog_eliminar">¿Desear eliminar el siguente reto?</string>
@@ -21,4 +21,5 @@
     el jugador que señale la botella debe cumplir el reto que lanza la app, de lo controrio abanona el juego.</string>
     <string name="titulo_quien_gana">¿Quien gana?</string>
     <string name="quien_gana">Gana el ultimo jugador que no abandone el juego </string>
+    <string name="presioname">Presióname</string>
 </resources>

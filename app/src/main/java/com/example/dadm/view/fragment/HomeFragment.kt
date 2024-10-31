@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -119,15 +120,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
-
-//    private fun observerEnableStreamers() {
-//        challengeViewModel.enableStreamers.observe(viewLifecycleOwner) { enableStreamer ->
-//            binding.lottieCerpentina.isVisible = enableStreamer
-//            binding.lottieCerpentina.playAnimation()
-//        }
-//    }
+    
 
     private fun observerEnableButton() {
         challengeViewModel.enableButton.observe(viewLifecycleOwner) { enableButton ->

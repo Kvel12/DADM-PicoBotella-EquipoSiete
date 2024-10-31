@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/iv_bottle"
             android:layout_width="wrap_content"
-            android:layout_height="380dp"
+            android:layout_height="410dp"
             android:src="@drawable/bottle_corona"
             app:layout_constraintBottom_toTopOf="@+id/cl_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
             android:id="@+id/cl_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -74,9 +74,9 @@
                 android:id="@+id/tv_presion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Presióname"
+                android:text="@string/presioname"
                 android:textSize="30sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 app:layout_constraintTop_toBottomOf="@id/button_animation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
