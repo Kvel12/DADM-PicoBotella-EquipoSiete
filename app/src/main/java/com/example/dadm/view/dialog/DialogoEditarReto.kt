@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
-import androidx.room.Update
 import com.example.dadm.databinding.DialogUpdateChallengeBinding
 import com.example.dadm.model.Challenge
 import com.example.dadm.viewmodel.ChallengeViewModel
@@ -33,14 +32,18 @@ object DialogoEditarReto {
         }
 
         // Establece el texto actual de la descripción del reto en el campo de entrada.
-        bindingDialogo.etContent.setText(reto.description)
+        bindingDialogo.etContent.setText(reto.descripcion)
 
-        // Configura el botón 'Cancelar' para guardar los cambios y cerrar el diálogo.
         bindingDialogo.btnCancelar.setOnClickListener {
+            dialogoAlerta.dismiss()
+        }
+
+        // Configura el botón 'Guardar' para guardar los cambios y cerrar el diálogo.
+        bindingDialogo.btnGuardar.setOnClickListener {
             // Obtiene el texto actualizado del campo de entrada.
             val descripcionActualizada = bindingDialogo.etContent.text.toString().trim()
             // Crea un nuevo objeto reto con el mismo ID y la descripción actualizada.
-            val retoActualizado = Challenge(reto.id, descripcionActualizada)
+            val retoActualizado = Challenge(reto.id,descripcionActualizada)
 
             // Actualiza el reto utilizando el ViewModel y cierra el diálogo.
             challengeViewModel.updateChallenge(retoActualizado)

@@ -56,7 +56,6 @@ class HomeFragment : Fragment() {
         binding.toolbarHome.icAddChallenge.setOnClickListener {
             audioBackground.pause()
             findNavController().navigate(R.id.action_homeFragment_to_agregarRetoFragment2)
-            challengeViewModel.estadoMostrarDialogo(false)
         }
 
         binding.buttonAnimation.setOnClickListener {
@@ -75,9 +74,9 @@ class HomeFragment : Fragment() {
             binding.toolbarHome.icMuteOn.isVisible = isMute
             audioBackground.start()
         }
-        binding.toolbarHome.icRules.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
-        }
+        //binding.toolbarHome.icRules.setOnClickListener {
+          //  findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
+        //}
 
         binding.toolbarHome.icStar.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -177,9 +176,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
-
 
 
     override fun onDestroy() {

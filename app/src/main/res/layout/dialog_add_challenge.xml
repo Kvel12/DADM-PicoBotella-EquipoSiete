@@ -50,10 +50,13 @@
                     android:id="@+id/btn_Cancelar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="50dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="@string/cancelar"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
                     android:backgroundTint="@color/appColor"
-                    android:text="Cancelar"
-                    android:textSize="16sp" />
+                    />
 
                 <Button
                     android:id="@+id/btn_Guardar"

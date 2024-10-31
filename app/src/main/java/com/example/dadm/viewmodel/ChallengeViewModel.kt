@@ -35,10 +35,6 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _estadoMostrarDialogo = MutableLiveData(false)
     val estadoMostrarDialogo: LiveData<Boolean> get() = _estadoMostrarDialogo
 
-    private val _ListaReto = MutableLiveData<MutableList<Challenge>>()
-    val listaReto: LiveData<MutableList<Challenge>> get() = _ListaReto
-
-
     private val _enableButton = MutableLiveData<Boolean>().apply { value = true }
     val enableButton: LiveData<Boolean> get() = _enableButton
 
@@ -48,6 +44,8 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     private val _enabledStreamers = MutableLiveData(false)
     val enableStreamers: LiveData<Boolean> get() = _enabledStreamers
 
+    private val _isMute = MutableLiveData(false)
+    val isMute: LiveData<Boolean> get() = _isMute
 
 
     private val _statusShowDialog = MutableLiveData(false)
@@ -102,6 +100,10 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         delay(time*1000L)
     }
 
+    fun modifiSound(modify: Boolean){
+        _isMute.value = modify
+    }
+
     fun saveChallenge(challenge: Challenge){
         viewModelScope.launch { try {
             challengeRepository.saveChallenge(challenge)
@@ -111,10 +113,9 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
     fun getListChallenge(){
         viewModelScope.launch {
             try {
-                challengeRepository.getListChallenge()
-                _progresState.value = false
+                _listChallenge.value = challengeRepository.getListChallenge()
             } catch (e: Exception) {
-                _progresState.value = false
+
             }
         }
     }
@@ -123,10 +124,8 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             _progresState.value = true
             try {
-//                _listChallenge.value = challengeRepository.updateChallenge(challenge)
-                _progresState.value = false
+                challengeRepository.updateChallenge(challenge)
             } catch (e: Exception) {
-                _progresState.value = false
             }
 
         }
@@ -134,12 +133,11 @@ class ChallengeViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun deleteChallenge(challenge: Challenge) {
         viewModelScope.launch {
-            _progresState.value = true
             try {
                 challengeRepository.deleteChallenge(challenge)
-                _progresState.value = false
+
             } catch (e: Exception) {
-                _progresState.value = false
+
             }
 
         }

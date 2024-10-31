@@ -10,7 +10,7 @@ import com.example.dadm.viewmodel.ChallengeViewModel
 
 class ChallengeAdapter(
     private val listaRetos: MutableList<Challenge>, // Lista mutable de objetos de tipo Challenge
-    private val modeloVistaReto: ChallengeViewModel // ViewModel para la navegación y manejo de datos
+    private val modeloVistaReto: ChallengeViewModel, // ViewModel para la navegación y manejo de datos
 ):RecyclerView.Adapter<ChallengeViewHolder>() {
 
     // Método que crea e inicializa el ViewHolder al inflar el diseño XML de cada elemento
