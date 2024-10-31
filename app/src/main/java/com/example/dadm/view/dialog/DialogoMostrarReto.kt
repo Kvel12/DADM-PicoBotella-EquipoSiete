@@ -36,7 +36,7 @@ object DialogoMostrarReto {
         val pokemonRepository = PokemonRepository()
         pokemonRepository.getRandomPokemon { pokemon ->
             pokemon?.let {
-                bindingDialogo.tvChallenge.text = "${mensajeReto}\n\n Pokémon: ${it.name}"
+                bindingDialogo.tvChallenge.text = "${mensajeReto}\n"
                 Glide.with(contexto)
                     .load(it.img)
                     .into(bindingDialogo.ivChallenge)

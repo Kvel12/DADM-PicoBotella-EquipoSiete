@@ -10,37 +10,29 @@
         android:name="com.example.dadm.view.fragment.HomeFragment"
         android:label="Home Fragment"
         tools:layout="@layout/fragment_home" >
+
         <action
-            android:id="@+id/action_homeFragment_to_rulesChallenge"
-            app:destination="@id/rulesChallenge"/>
+            android:id="@+id/action_homeFragment_to_agregarRetoFragment2"
+            app:destination="@id/agregarRetoFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_addChallengeFragment"
-            app:destination="@id/addChallengeFragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/addItemFragment"
-        android:name="com.example.dadm.view.fragment.AddItemFragment"
-        android:label="fragment_add_item"
-        tools:layout="@layout/fragment_add_item" />
-    <fragment
-        android:id="@+id/itemDetailsFragment"
-        android:name="com.example.dadm.view.fragment.ItemDetailsFragment"
-        android:label="fragment_item_details"
-        tools:layout="@layout/fragment_item_details" >
-        <action
-            android:id="@+id/action_itemDetailsFragment_to_itemEditFragment"
-            app:destination="@id/itemEditFragment" />
+            android:id="@+id/action_homeFragment_to_rulesPlayFragment"
+            app:destination="@id/rulesPlayFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/itemEditFragment"
-        android:name="com.example.dadm.view.fragment.ItemEditFragment"
-        android:label="fragment_item_edit"
-        tools:layout="@layout/fragment_item_edit" >
-        <action
-            android:id="@+id/action_itemEditFragment_to_homeInventoryFragment"
-            app:destination="@id/homeInventoryFragment"
-            app:popUpTo="@+id/homeInventoryFragment"
-            app:popUpToInclusive="true"/>
+        android:id="@+id/agregarRetoFragment"
+        android:name="com.example.dadm.view.fragment.AgregarRetoFragment"
+        android:label="AgregarRetoFragment"
+        tools:layout="@layout/fragment_add_challenge">
+
     </fragment>
+    <fragment
+        android:id="@+id/rulesPlayFragment"
+        android:name="com.example.dadm.view.fragment.RulesPlayFragment"
+        android:label="RulesPlayFragment"
+        tools:layout="@layout/fragment_instructions">
+
+    </fragment>
+
+
 </navigation>
