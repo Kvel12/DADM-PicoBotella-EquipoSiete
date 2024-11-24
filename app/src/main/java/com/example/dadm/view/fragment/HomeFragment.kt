@@ -17,8 +17,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var audioBackground: MediaPlayer
