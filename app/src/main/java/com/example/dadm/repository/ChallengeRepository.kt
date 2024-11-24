@@ -5,9 +5,11 @@ import com.example.dadm.data.ChallengeDao
 import com.example.dadm.model.Challenge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ChallengeRepository(val context: Context){
-    private var challengeDao:ChallengeDao = ChallengeDB.getDatabase(context).challengeDao()
+class ChallengeRepository @Inject constructor(
+    private val challengeDao:ChallengeDao
+){
 
     suspend fun saveChallenge(challenge : Challenge){
         withContext(Dispatchers.IO){

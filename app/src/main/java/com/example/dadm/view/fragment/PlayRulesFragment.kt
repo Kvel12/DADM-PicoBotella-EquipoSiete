@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentInstructionsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RulesPlayFragment : Fragment() {
     private lateinit var binding: FragmentInstructionsBinding
 

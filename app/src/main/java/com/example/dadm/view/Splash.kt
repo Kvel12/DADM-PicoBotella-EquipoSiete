@@ -13,7 +13,9 @@ import androidx.lifecycle.Observer
 import com.example.dadm.R
 import com.example.dadm.view.MainActivity
 import com.example.dadm.viewmodel.ChallengeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Splash : AppCompatActivity() {
 
     private val challengeViewModel: ChallengeViewModel by viewModels()

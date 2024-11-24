@@ -13,7 +13,9 @@ import com.example.dadm.databinding.FragmentAddChallengeBinding
 import com.example.dadm.view.adapter.ChallengeAdapter
 import com.example.dadm.view.dialog.DialogoAgregarReto.mostrarDialogoAgregarReto
 import com.example.dadm.viewmodel.ChallengeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgregarRetoFragment: Fragment() {
     // Importación necesaria para la vinculación de vistas
     private lateinit var vistaBinding: FragmentAddChallengeBinding // Vincula el diseño XML del fragmento
