@@ -97,6 +97,8 @@ dependencies {
 
     //Animaciones
     implementation ("com.airbnb.android:lottie:6.6.0")
+    implementation ("com.google.android.material:material:1.9.0")
+
 
     //dagger hilt
     implementation("com.google.dagger:hilt-android:2.47")

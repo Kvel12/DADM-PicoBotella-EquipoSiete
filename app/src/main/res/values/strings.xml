@@ -24,4 +24,10 @@
     <string name="presioname">Presióname</string>
     <string name="NO_buttom">NO</string>
     <string name="SI_buttom">SI</string>
+    <string name="login_title">pico botella</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password\n</string>
+    <string name="login_button">Login</string>
+    <string name="no_account_register">Registrarse\n</string>
+    <string name="min_six_digits">Minimo 6 digitos</string>
 </resources>
