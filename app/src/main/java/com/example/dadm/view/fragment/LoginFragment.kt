@@ -53,6 +53,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupFocusListeners()
 
         // Configuración de observadores y estados
         setupButtonStates()
@@ -69,17 +70,24 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupEmailValidation() {
-        // Observa la visibilidad del error del email
         loginViewModel.emailErrorVisible.observe(viewLifecycleOwner) { isVisible ->
-            binding.tvEmailError.visibility = if (isVisible) View.VISIBLE else View.GONE
+            if (isVisible) {
+                binding.ilEmail.error = getString(R.string.invalid_email) // Muestra el mensaje de error
+            } else {
+                binding.ilEmail.error = null // Limpia el mensaje de error
+            }
         }
+
     }
 
 
     private fun setupPasswordValidation() {
-        // Observa la visibilidad del error de la contraseña
         loginViewModel.passwordErrorVisible.observe(viewLifecycleOwner) { isVisible ->
-            binding.tvPasswordError.visibility = if (isVisible) View.VISIBLE else View.GONE
+            if (isVisible) {
+                binding.ilPassword.error = getString(R.string.min_six_digits) // Muestra el mensaje de error
+            } else {
+                binding.ilPassword.error = null // Limpia el mensaje de error
+            }
         }
     }
 
@@ -112,7 +120,7 @@ class LoginFragment : Fragment() {
 
             binding.loginButton.setTextColor(
                 if (isEnabled) resources.getColor(R.color.white)
-                else resources.getColor(R.color.app_red)
+                else resources.getColor(R.color.app_gray)
             )
         }
 
@@ -132,7 +140,7 @@ class LoginFragment : Fragment() {
             // Aquí aplicamos la animación al TextView cuando se hace clic
             val scaleAnimation = ScaleAnimation(
                 1f, 0.95f, // De tamaño original a más pequeño (reducción)
-                1f, 0.95f, // De tamaño original a más pequeño (reducción)
+                1f, 0.70f, // De tamaño original a más pequeño (reducción)
                 Animation.RELATIVE_TO_SELF, 0.5f, // Punto de pivote en el centro horizontal
                 Animation.RELATIVE_TO_SELF, 0.5f // Punto de pivote en el centro vertical
             ).apply {
@@ -144,7 +152,24 @@ class LoginFragment : Fragment() {
             // Iniciar la animación
             binding.registerButton.startAnimation(scaleAnimation)
 
+        }
+    }
 
+    private fun setupFocusListeners() {
+        binding.etEmail.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.ilEmail.hint = getString(R.string.email_hint)
+            } else {
+                binding.ilEmail.hint = null
+            }
+        }
+
+        binding.etPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.ilPassword.hint = getString(R.string.password_hint)
+            } else {
+                binding.ilPassword.hint = null
+            }
         }
     }
 
