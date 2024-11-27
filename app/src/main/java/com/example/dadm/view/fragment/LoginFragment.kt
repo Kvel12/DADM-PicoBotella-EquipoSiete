@@ -1,9 +1,7 @@
 package com.example.dadm.view
 
-import android.graphics.Typeface
+import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
@@ -12,25 +10,19 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentLoginBinding
-import com.example.dadm.viewmodel.ChallengeViewModel
+import com.example.dadm.model.UserRequest
 import com.example.dadm.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
-
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var navController: NavController
-
     private val loginViewModel: LoginViewModel by viewModels()
-
     private var isPasswordVisible = false
 
     override fun onCreateView(
@@ -40,113 +32,153 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.viewModel = loginViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-        setupEmailValidation()
-        setupPasswordValidation()
-        setupPasswordVisibilityToggle()
-
-        setupRegisterButtonAnimation()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkSession()
+        setupUI()
+        setupObservers()
+    }
 
-
-        // Configuración de observadores y estados
+    private fun setupUI() {
+        setupEmailValidation()
+        setupPasswordValidation()
+        setupPasswordVisibilityToggle()
         setupButtonStates()
+        setupButtons()
+    }
 
-        // Listener para el botón de login
+    private fun setupButtons() {
         binding.loginButton.setOnClickListener {
-            // Implementa aquí la lógica para realizar el login
+            handleLogin()
         }
 
-        // Listener para el botón de registro
         binding.registerButton.setOnClickListener {
-            // Implementa la acción de registro aquí
+            handleRegister()
+            setupRegisterButtonAnimation()
         }
     }
 
     private fun setupEmailValidation() {
-        // Observa la visibilidad del error del email
         loginViewModel.emailErrorVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.tvEmailError.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
 
-
     private fun setupPasswordValidation() {
-        // Observa la visibilidad del error de la contraseña
         loginViewModel.passwordErrorVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.tvPasswordError.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
 
-    // Configuración del cambio de visibilidad de la contraseña
     private fun setupPasswordVisibilityToggle() {
-        // Detectar clics en el ícono del "ojo" para alternar la visibilidad de la contraseña
         binding.ilPassword.setEndIconOnClickListener {
-            isPasswordVisible = !isPasswordVisible // Cambiar el estado de visibilidad
-
+            isPasswordVisible = !isPasswordVisible
             if (isPasswordVisible) {
-                // Mostrar la contraseña
                 binding.etPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                binding.ilPassword.setEndIconDrawable(R.drawable.ic_eye_open) // Cambiar el icono a cerrado
+                binding.ilPassword.setEndIconDrawable(R.drawable.ic_eye_open)
             } else {
-                // Ocultar la contraseña
                 binding.etPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-                binding.ilPassword.setEndIconDrawable(R.drawable.ic_eye_closed) // Cambiar el icono a abierto
+                binding.ilPassword.setEndIconDrawable(R.drawable.ic_eye_closed)
             }
-
-            // Actualizar el campo de texto para reflejar el cambio en la visibilidad de la contraseña
             binding.etPassword.setSelection(binding.etPassword.text?.length ?: 0)
         }
     }
 
     private fun setupButtonStates() {
-        // Observamos el estado del botón de login
         loginViewModel.enableLoginButton.observe(viewLifecycleOwner) { isEnabled ->
             binding.loginButton.isEnabled = isEnabled
-            // Cambiar dinámicamente el color del fondo y el texto del botón de login
-
             binding.loginButton.setTextColor(
-                if (isEnabled) resources.getColor(R.color.white)
-                else resources.getColor(R.color.app_red)
+                if (isEnabled) requireContext().getColor(R.color.white)
+                else requireContext().getColor(R.color.app_red)
             )
         }
 
-        // Observamos el estado del botón de registro
         loginViewModel.enableRegisterButton.observe(viewLifecycleOwner) { isEnabled ->
             binding.registerButton.isEnabled = isEnabled
-            // Cambiar dinámicamente el color del texto del botón de registro
             binding.registerButton.setTextColor(
-                if (isEnabled) resources.getColor(R.color.white)
-                else resources.getColor(R.color.app_gray)
+                if (isEnabled) requireContext().getColor(R.color.white)
+                else requireContext().getColor(R.color.app_gray)
             )
+        }
+    }
+
+    private fun setupObservers() {
+        loginViewModel.isRegister.observe(viewLifecycleOwner) { userResponse ->
+            if (userResponse.isRegister) {
+                Toast.makeText(requireContext(), userResponse.message, Toast.LENGTH_SHORT).show()
+                saveEmailToPreferences(userResponse.email)
+                navigateToHome()
+            } else {
+                Toast.makeText(requireContext(), userResponse.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun handleLogin() {
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            loginViewModel.loginUser(email, password) { isLogin ->
+                if (isLogin) {
+                    saveEmailToPreferences(email)
+                    navigateToHome()
+                } else {
+                    Toast.makeText(requireContext(), "Login incorrecto", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun handleRegister() {
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            val userRequest = UserRequest(email, password)
+            loginViewModel.registerUser(userRequest)
+        } else {
+            Toast.makeText(requireContext(), "Campos vacíos", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setupRegisterButtonAnimation() {
-        binding.registerButton.setOnClickListener {
-            // Aquí aplicamos la animación al TextView cuando se hace clic
-            val scaleAnimation = ScaleAnimation(
-                1f, 0.95f, // De tamaño original a más pequeño (reducción)
-                1f, 0.95f, // De tamaño original a más pequeño (reducción)
-                Animation.RELATIVE_TO_SELF, 0.5f, // Punto de pivote en el centro horizontal
-                Animation.RELATIVE_TO_SELF, 0.5f // Punto de pivote en el centro vertical
-            ).apply {
-                duration = 150 // Duración de la animación en milisegundos
-                repeatCount = 1 // Hacer que la animación se repita una vez
-                repeatMode = Animation.REVERSE // Revertir la animación después de completar
+        val scaleAnimation = ScaleAnimation(
+            1f, 0.95f,
+            1f, 0.95f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        ).apply {
+            duration = 150
+            repeatCount = 1
+            repeatMode = Animation.REVERSE
+        }
+        binding.registerButton.startAnimation(scaleAnimation)
+    }
+
+    private fun checkSession() {
+        val email = requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
+            .getString("email", null)
+
+        loginViewModel.sesion(email) { isEnableView ->
+            if (isEnableView) {
+                binding.clContenedor.visibility = View.INVISIBLE
+                navigateToHome()
             }
-
-            // Iniciar la animación
-            binding.registerButton.startAnimation(scaleAnimation)
-
-
         }
     }
 
+    private fun saveEmailToPreferences(email: String?) {
+        requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
+            .edit()
+            .putString("email", email)
+            .apply()
+    }
 
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+    }
 }
