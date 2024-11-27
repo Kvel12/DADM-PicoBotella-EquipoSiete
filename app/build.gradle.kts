@@ -54,8 +54,9 @@ dependencies {
     //Firebase and Firestore
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-firestore-ktx")
-    //Authentication
+    // Authentication
     implementation("com.google.firebase:firebase-auth-ktx")
+
     //testing
     testImplementation("junit:junit:4.13.2")
     
