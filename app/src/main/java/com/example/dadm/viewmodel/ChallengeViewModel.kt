@@ -165,23 +165,16 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    fun spinBottle() {
-        _statusRotationBottle.value = true
-
-        // Generar un nuevo ángulo de rotación aleatorio (1080-3600 grados) y agregar el último ángulo
-        val degrees = (Math.random() * 3600 + 1080).toFloat()
-        val finalAngle = lastAngle + degrees // el ángulo total de rotación
-
-        // Crear la animación de rotación desde lastAngle hasta finalAngle
-        val rotation = RotateAnimation(
-            lastAngle, finalAngle,
+    // Método para generar la animación de rotación
+    fun createRotationAnimation(fromAngle: Float, toAngle: Float): RotateAnimation {
+        return RotateAnimation(
+            fromAngle, toAngle,
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f
         ).apply {
-            fillAfter = true // Mantener la posición final
+            fillAfter = true
             duration = 3600
             interpolator = DecelerateInterpolator()
-
 
             setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
@@ -191,22 +184,28 @@ class ChallengeViewModel @Inject constructor(
 
                 override fun onAnimationEnd(animation: Animation?) {
                     _statusRotationBottle.value = false
-//                    _enabledStreamers.value = false
-//                    _statusShowDialog.value = true // Activar el diálogo
-                    lastAngle = finalAngle % 360 // Actualizar el último ángulo (en rango de 0 a 360 grados)
-
-                    // Iniciar cuenta regresiva de 3 a 0 después de que se detiene la botella
-                    startCountdown()
-
+                    lastAngle = toAngle % 360 // Actualizar el último ángulo
+                    startCountdown() // Iniciar cuenta regresiva
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
         }
+    }
 
-        // Asignar la animación a LiveData para que se observe en la vista
+    // Método principal que coordina la animación
+    fun spinBottle() {
+        _statusRotationBottle.value = true
+
+        // Generar un nuevo ángulo de rotación aleatorio
+        val degrees = (Math.random() * 3600 + 1080).toFloat()
+        val finalAngle = lastAngle + degrees
+
+        // Crear y asignar la animación a LiveData
+        val rotation = createRotationAnimation(lastAngle, finalAngle)
         _rotationBotle.value = rotation
     }
+
 
     private fun startCountdown() {
         viewModelScope.launch {
