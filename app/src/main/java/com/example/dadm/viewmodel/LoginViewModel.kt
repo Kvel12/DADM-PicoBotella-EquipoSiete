@@ -5,51 +5,85 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.example.dadm.R
+import com.example.dadm.model.UserRequest
+import com.example.dadm.model.UserResponse
+import com.example.dadm.repository.LoginRepository
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor() : ViewModel() {
+    private val repository = LoginRepository()
+    private val _isRegister = MutableLiveData<UserResponse>()
+    val isRegister: LiveData<UserResponse> = _isRegister
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
 
-    // Validación de email
     val isEmailValid: LiveData<Boolean> = email.map {
         it?.matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()) == true
     }
 
-    // Validación de contraseña
     val isPasswordValid: LiveData<Boolean> = password.map {
         !it.isNullOrBlank() && it.length >= 6
     }
 
-    // Control de errores de email
     val emailErrorVisible: LiveData<Boolean> = isEmailValid.map { !it }
-
-    // Control de errores de contraseña
     val passwordErrorVisible: LiveData<Boolean> = isPasswordValid.map { !it }
 
-    // Control del estado del botón de login
     private val _enableLoginButton = MediatorLiveData<Boolean>().apply {
         addSource(isEmailValid) { updateLoginButtonState() }
         addSource(isPasswordValid) { updateLoginButtonState() }
     }
     val enableLoginButton: LiveData<Boolean> get() = _enableLoginButton
 
-    // Control del estado del botón de registro
     private val _enableRegisterButton = MediatorLiveData<Boolean>().apply {
         addSource(email) { updateRegisterButtonState() }
         addSource(password) { updateRegisterButtonState() }
     }
     val enableRegisterButton: LiveData<Boolean> get() = _enableRegisterButton
 
+    fun registerUser(userRequest: UserRequest) {
+        if (isEmailValid.value == true && isPasswordValid.value == true) {
+            repository.registerUser(userRequest) { userResponse ->
+                _isRegister.postValue(userResponse)
+            }
+        } else {
+            _isRegister.postValue(
+                UserResponse(
+                    isRegister = false,
+                    message = "Por favor, verifica los campos ingresados"
+                )
+            )
+        }
+    }
+
+    fun loginUser(email: String, pass: String, isLogin: (Boolean) -> Unit) {
+        if (isEmailValid.value == true && isPasswordValid.value == true) {
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        isLogin(true)
+                    } else {
+                        isLogin(false)
+                    }
+                }
+        } else {
+            isLogin(false)
+        }
+    }
+
+    fun sesion(email: String?, isEnableView: (Boolean) -> Unit) {
+        isEnableView(email != null)
+    }
+
     private fun updateLoginButtonState() {
         _enableLoginButton.value = isEmailValid.value == true && isPasswordValid.value == true
     }
 
     private fun updateRegisterButtonState() {
-        _enableRegisterButton.value =
-            !email.value.isNullOrBlank() && !password.value.isNullOrBlank()
+        _enableRegisterButton.value = !email.value.isNullOrBlank() && !password.value.isNullOrBlank()
     }
 }
-
-

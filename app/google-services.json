@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46384965043",
+    "project_id": "dadm-picobotella",
+    "storage_bucket": "dadm-picobotella.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46384965043:android:55a118e4061738c24fd7c6",
+        "android_client_info": {
+          "package_name": "com.example.dadm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI7MaXLdDCfY26iv57hUzBoffyBeaVgB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
