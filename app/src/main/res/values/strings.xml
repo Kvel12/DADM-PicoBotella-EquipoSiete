@@ -30,4 +30,5 @@
     <string name="login_button">Login</string>
     <string name="no_account_register">Registrarse\n</string>
     <string name="min_six_digits">Minimo 6 digitos</string>
+    <string name="invalid_email">Email invalido. Debe de contener @ y un dominio</string>
 </resources>

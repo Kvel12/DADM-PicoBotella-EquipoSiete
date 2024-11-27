@@ -63,11 +63,6 @@ class ChallengeViewModel @Inject constructor(
     val randomChallenge: LiveData<Challenge?> get() = _randomChallenge
 
 
-
-//    //para almacenar una lista de productos
-//    private val _listProducts = MutableLiveData<MutableList<ProductModelResponse>>()
-//    val listProducts: LiveData<MutableList<ProductModelResponse>> = _listProducts
-
     // LiveData que indica cuándo se debe iniciar la actividad principal
     private val _navigateToMain = MutableLiveData<Boolean>()
     val navigateToMain: LiveData<Boolean> get() = _navigateToMain
