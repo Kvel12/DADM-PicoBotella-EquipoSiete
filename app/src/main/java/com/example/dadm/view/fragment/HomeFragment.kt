@@ -247,7 +247,7 @@ class HomeFragment : Fragment() {
                 binding.buttonAnimation.isVisible = true
 
                 // Aquí activamos el estado para que el cuadro de diálogo de reto se muestre
-                challengeViewModel.setStatusShowDialog(true)
+                //challengeViewModel.setStatusShowDialog(true)
             }
         }
     }
