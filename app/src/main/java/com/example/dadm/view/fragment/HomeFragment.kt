@@ -19,6 +19,10 @@ import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import com.google.firebase.auth.FirebaseAuth
+import android.content.Context
+import androidx.navigation.NavOptions
+import com.example.dadm.view.MainActivity
 import kotlinx.coroutines.runBlocking
 import android.util.Log
 
@@ -50,8 +54,6 @@ class HomeFragment : Fragment() {
         challengeViewModel.getListChallenge()
 
         observerListChallenge() // Añade un método para observar la lista de retos
-
-
 
     }
 
@@ -113,18 +115,41 @@ class HomeFragment : Fragment() {
         }
 
         binding.toolbarHome.icLogout.setOnClickListener {
-            Log.d("Logout", "Logout button clicked")
-            FirebaseAuth.getInstance().signOut()
-            Log.d("Logout", "User signed out: ${FirebaseAuth.getInstance().currentUser == null}")
-
-            if (FirebaseAuth.getInstance().currentUser == null) {
-                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
-            } else {
-                Toast.makeText(context, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
-            }
+            // Navegar al fragmento de inicio de sesión
+            performLogout()
         }
 
 
+    }
+
+    private fun performLogout() {
+        // Detener y liberar recursos de audio
+        if (::audioBackground.isInitialized) {
+            if (audioBackground.isPlaying) {
+                audioBackground.pause()
+            }
+            audioBackground.release()
+        }
+        if (::audioSpinBottle.isInitialized) {
+            audioSpinBottle.release()
+        }
+
+        // Cerrar sesión de Firebase
+        FirebaseAuth.getInstance().signOut()
+
+        // Limpiar SharedPreferences
+        requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
+            .edit()
+            .clear()
+            .commit()
+
+        // Reiniciar la actividad principal
+        requireActivity().apply {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun observerViewModel() {
