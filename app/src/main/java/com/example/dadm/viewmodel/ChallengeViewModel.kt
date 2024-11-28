@@ -220,9 +220,9 @@ class ChallengeViewModel @Inject constructor(
     }
 
 
-    fun setStatusShowDialog(show: Boolean) {
-        _statusShowDialog.value = show
-    }
+   // fun setStatusShowDialog(show: Boolean) {
+  //      _statusShowDialog.value = show
+    //}
 
     // Reinicia el valor de _statusShowDialog después de mostrar el cuadro de diálogo en el Fragment
     fun resetStatusShowDialog() {
