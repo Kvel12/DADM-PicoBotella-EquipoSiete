@@ -19,7 +19,6 @@ import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import com.google.firebase.auth.FirebaseAuth
 import android.content.Context
 import androidx.navigation.NavOptions
 import com.example.dadm.view.MainActivity
