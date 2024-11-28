@@ -40,6 +40,7 @@ object DialogoAgregarReto {
             val descripcionReto = bindingDialogo.etContent.text.toString().trim()
             val nuevoReto = Challenge(descripcion = descripcionReto)
 
+
             // Guarda el nuevo reto utilizando el ViewModel y cierra el diálogo.
             challengeViewModel.saveChallenge(nuevoReto)
             dialogoAlerta.dismiss()

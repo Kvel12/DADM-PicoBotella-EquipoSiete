@@ -17,6 +17,7 @@ import com.example.dadm.R
 import com.example.dadm.databinding.FragmentLoginBinding
 import com.example.dadm.model.UserRequest
 import com.example.dadm.viewmodel.LoginViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,6 +41,12 @@ class LoginFragment : Fragment() {
         checkSession()
         setupUI()
         setupObservers()
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            // Si hay un usuario autenticado, navega al fragmento de inicio
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+
     }
 
     private fun setupUI() {
