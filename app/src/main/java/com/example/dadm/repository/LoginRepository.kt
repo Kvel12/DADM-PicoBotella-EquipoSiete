@@ -16,7 +16,7 @@ class LoginRepository {
                         val email = task.result?.user?.email
                         userResponse(
                             UserResponse(
-                                email = email,
+                                email =  task.result?.user?.email,
                                 isRegister = true,
                                 message = "Registro Exitoso"
                             )
@@ -24,19 +24,17 @@ class LoginRepository {
                     } else {
                         val error = task.exception
                         if (error is FirebaseAuthUserCollisionException) {
-                            // Manejo específico cuando ya existe un mismo email registrado
                             userResponse(
                                 UserResponse(
                                     isRegister = false,
-                                    message = "El usuario ya existe"
+                                    message = "Error en el registro" // Mensaje ajustado
                                 )
                             )
                         } else {
-                            // Manejo de otros errores
                             userResponse(
                                 UserResponse(
                                     isRegister = false,
-                                    message = "Error en el registro"
+                                    message = "Error en el registro" // Mensaje ajustado
                                 )
                             )
                         }

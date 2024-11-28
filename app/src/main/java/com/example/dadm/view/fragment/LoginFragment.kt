@@ -17,6 +17,7 @@ import com.example.dadm.R
 import com.example.dadm.databinding.FragmentLoginBinding
 import com.example.dadm.model.UserRequest
 import com.example.dadm.viewmodel.LoginViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,6 +41,12 @@ class LoginFragment : Fragment() {
         checkSession()
         setupUI()
         setupObservers()
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            // Si hay un usuario autenticado, navega al fragmento de inicio
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+
     }
 
     private fun setupUI() {
@@ -112,10 +119,11 @@ class LoginFragment : Fragment() {
                 saveEmailToPreferences(userResponse.email)
                 navigateToHome()
             } else {
-                Toast.makeText(requireContext(), userResponse.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error en el registro", Toast.LENGTH_SHORT).show() // Mensaje ajustado
             }
         }
     }
+
 
     private fun handleLogin() {
         val email = binding.etEmail.text.toString()
@@ -127,11 +135,12 @@ class LoginFragment : Fragment() {
                     saveEmailToPreferences(email)
                     navigateToHome()
                 } else {
-                    Toast.makeText(requireContext(), "Login incorrecto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Login incorrecto", Toast.LENGTH_SHORT).show() // Mensaje ajustado
                 }
             }
         }
     }
+
 
     private fun handleRegister() {
         val email = binding.etEmail.text.toString()
@@ -144,6 +153,7 @@ class LoginFragment : Fragment() {
             Toast.makeText(requireContext(), "Campos vacíos", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun setupRegisterButtonAnimation() {
         val scaleAnimation = ScaleAnimation(

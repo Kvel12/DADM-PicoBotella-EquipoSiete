@@ -17,8 +17,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.dadm.R
 import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
+import android.util.Log
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -108,6 +111,19 @@ class HomeFragment : Fragment() {
             }
             startActivity(Intent.createChooser(shareIntent, "Compartir usando"))
         }
+
+        binding.toolbarHome.icLogout.setOnClickListener {
+            Log.d("Logout", "Logout button clicked")
+            FirebaseAuth.getInstance().signOut()
+            Log.d("Logout", "User signed out: ${FirebaseAuth.getInstance().currentUser == null}")
+
+            if (FirebaseAuth.getInstance().currentUser == null) {
+                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            } else {
+                Toast.makeText(context, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
     }
 
