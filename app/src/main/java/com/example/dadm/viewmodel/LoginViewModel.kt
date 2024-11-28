@@ -50,6 +50,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                 _isRegister.postValue(userResponse)
             }
         } else {
+            // Mostrar mensaje de error si los campos no son válidos
             _isRegister.postValue(
                 UserResponse(
                     isRegister = false,
@@ -67,10 +68,12 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                     if (it.isSuccessful) {
                         isLogin(true)
                     } else {
+                        // Mostrar mensaje de login incorrecto
                         isLogin(false)
                     }
                 }
         } else {
+            // Si el email o la contraseña no son válidos
             isLogin(false)
         }
     }

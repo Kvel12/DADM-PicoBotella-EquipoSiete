@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_homeFragment_to_rulesPlayFragment"
             app:destination="@id/rulesPlayFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment

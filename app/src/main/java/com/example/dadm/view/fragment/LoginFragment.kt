@@ -112,10 +112,11 @@ class LoginFragment : Fragment() {
                 saveEmailToPreferences(userResponse.email)
                 navigateToHome()
             } else {
-                Toast.makeText(requireContext(), userResponse.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error en el registro", Toast.LENGTH_SHORT).show() // Mensaje ajustado
             }
         }
     }
+
 
     private fun handleLogin() {
         val email = binding.etEmail.text.toString()
@@ -127,11 +128,12 @@ class LoginFragment : Fragment() {
                     saveEmailToPreferences(email)
                     navigateToHome()
                 } else {
-                    Toast.makeText(requireContext(), "Login incorrecto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Login incorrecto", Toast.LENGTH_SHORT).show() // Mensaje ajustado
                 }
             }
         }
     }
+
 
     private fun handleRegister() {
         val email = binding.etEmail.text.toString()
@@ -144,6 +146,7 @@ class LoginFragment : Fragment() {
             Toast.makeText(requireContext(), "Campos vacíos", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun setupRegisterButtonAnimation() {
         val scaleAnimation = ScaleAnimation(

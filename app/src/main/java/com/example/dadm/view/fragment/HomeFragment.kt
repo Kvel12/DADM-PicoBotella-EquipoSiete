@@ -109,6 +109,12 @@ class HomeFragment : Fragment() {
             startActivity(Intent.createChooser(shareIntent, "Compartir usando"))
         }
 
+        binding.toolbarHome.icLogout.setOnClickListener {
+            // Navegar al fragmento de inicio de sesión
+            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+        }
+
+
     }
 
     private fun observerViewModel() {
