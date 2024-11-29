@@ -19,12 +19,12 @@ import com.example.dadm.databinding.FragmentHomeBinding
 import com.example.dadm.viewmodel.ChallengeViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import com.google.firebase.auth.FirebaseAuth
 import android.content.Context
 import androidx.navigation.NavOptions
 import com.example.dadm.view.MainActivity
 import kotlinx.coroutines.runBlocking
 import android.util.Log
+import com.example.dadm.utils.Result
 
 
 @AndroidEntryPoint
@@ -32,15 +32,15 @@ class HomeFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var audioBackground: MediaPlayer
     private lateinit var audioSpinBottle: MediaPlayer
-
     private var isMute: Boolean = true
     private val challengeViewModel: ChallengeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
         return binding.root
@@ -52,19 +52,15 @@ class HomeFragment : Fragment() {
         observerViewModel()
         mediaController()
         challengeViewModel.getListChallenge()
-
-        observerListChallenge() // Añade un método para observar la lista de retos
-
+        observerListChallenge()
+        observerErrores()
     }
 
     private fun mediaController() {
-        // Inicializa el audio de fondo y lo configura para que se reproduzca en loop
         audioBackground = MediaPlayer.create(context, R.raw.background_music).apply {
-            isLooping = true  // Establece la reproducción en bucle
-            start()           // Inicia la reproducción del audio
+            isLooping = true
+            start()
         }
-
-        // Inicializa el audio para el giro de la botella (sin bucle)
         audioSpinBottle = MediaPlayer.create(context, R.raw.spinning_bottle)
     }
 
@@ -79,21 +75,23 @@ class HomeFragment : Fragment() {
         binding.buttonAnimation.setOnClickListener {
             challengeViewModel.spinBottle()
         }
+
         binding.toolbarHome.icMuteOff.setOnClickListener {
             isMute = true
             binding.toolbarHome.icMuteOn.isVisible = isMute
             binding.toolbarHome.icMuteOff.isVisible = !isMute
             audioBackground.pause()
-
         }
+
         binding.toolbarHome.icMuteOn.setOnClickListener {
             isMute = false
             binding.toolbarHome.icMuteOff.isVisible = !isMute
             binding.toolbarHome.icMuteOn.isVisible = isMute
             audioBackground.start()
         }
+
         binding.toolbarHome.icRules.setOnClickListener {
-          findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_rulesPlayFragment)
         }
 
         binding.toolbarHome.icStar.setOnClickListener {
@@ -101,7 +99,6 @@ class HomeFragment : Fragment() {
                 data = Uri.parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es")
             }
             view.context.startActivity(intent)
-
         }
 
         binding.toolbarHome.icShareApp.setOnClickListener {
@@ -115,25 +112,12 @@ class HomeFragment : Fragment() {
         }
 
         binding.toolbarHome.icLogout.setOnClickListener {
-            // Navegar al fragmento de inicio de sesión
             performLogout()
         }
-
-
     }
 
     private fun performLogout() {
-        // Detener y liberar recursos de audio
-        if (::audioBackground.isInitialized) {
-            if (audioBackground.isPlaying) {
-                audioBackground.pause()
-            }
-            audioBackground.release()
-        }
-        if (::audioSpinBottle.isInitialized) {
-            audioSpinBottle.release()
-        }
-
+//
         // Cerrar sesión de Firebase
         FirebaseAuth.getInstance().signOut()
 
@@ -159,34 +143,46 @@ class HomeFragment : Fragment() {
         observerCountdown()
     }
 
+    private fun observerErrores() {
+        challengeViewModel.error.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun observerDialogChallenge() {
-        // Observar el estado de visibilidad del diálogo
         challengeViewModel.statusShowDialog.observe(viewLifecycleOwner) { shouldShowDialog ->
             if (shouldShowDialog) {
-                // Pausar el audio de fondo mientras el diálogo está activo
                 audioBackground.pause()
 
-                // Observar la lista de retos para mostrar uno aleatorio
-                challengeViewModel.listChallenge.observe(viewLifecycleOwner) { listaRetos ->
-                    if (listaRetos.isNotEmpty()) {
-                        // Seleccionar un reto aleatorio y mostrar el diálogo
-                        val retoAleatorio = listaRetos.random()
-                        challengeViewModel.dialogoMostrarReto(
-                            requireContext(),
-                            audioBackground,
-                            isMute,
-                            retoAleatorio.descripcion // Muestra el mensaje del reto aleatorio
-                        )
-                    } else {
-                        // Opcional: manejar el caso en que no haya retos (e.g., mostrar un Toast)
-                        Toast.makeText(context, "No hay retos disponibles", Toast.LENGTH_SHORT).show()
+                challengeViewModel.listChallenge.observe(viewLifecycleOwner) { resultado ->
+                    when (resultado) {
+                        is Result.Success -> {
+                            if (resultado.data.isNotEmpty()) {
+                                val retoAleatorio = resultado.data.random()
+                                challengeViewModel.dialogoMostrarReto(
+                                    requireContext(),
+                                    audioBackground,
+                                    isMute,
+                                    retoAleatorio.descripcion
+                                )
+                            } else {
+                                Toast.makeText(context, "No hay retos disponibles", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        is Result.Failure -> {
+                            Toast.makeText(
+                                context,
+                                "Error al cargar los retos: ${resultado.exception.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
 
-                // Restablece el estado para que no se muestre continuamente
                 challengeViewModel.resetStatusShowDialog()
 
-                // Reanuda el audio de fondo después de cerrar el diálogo si no está en modo silencio
                 if (!isMute) {
                     audioBackground.start()
                 }
@@ -195,21 +191,26 @@ class HomeFragment : Fragment() {
     }
 
     private fun observerListChallenge() {
-        challengeViewModel.listChallenge.observe(viewLifecycleOwner) { listaRetos ->
-            // Actualiza tu UI aquí, por ejemplo, configurando el RecyclerView
-            if (listaRetos.isNotEmpty()) {
-                // Configura el RecyclerView o muestra un reto aleatorio
-            } else {
-                // Manejar el caso en que no hay retos
+        challengeViewModel.listChallenge.observe(viewLifecycleOwner) { resultado ->
+            when (resultado) {
+                is Result.Success -> {
+                    if (resultado.data.isEmpty()) {
+                        Toast.makeText(context, "No hay retos disponibles", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Result.Failure -> {
+                    Toast.makeText(
+                        context,
+                        "Error al cargar los retos: ${resultado.exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
 
-
-
     private fun observerEnableButton() {
         challengeViewModel.enableButton.observe(viewLifecycleOwner) { enableButton ->
-            // Verificar si la botella está girando o si la cuenta regresiva está activa
             val isCountdownActive = challengeViewModel.countdown.value != null && challengeViewModel.countdown.value!! > 0
             binding.buttonAnimation.isVisible = enableButton && !isCountdownActive && !challengeViewModel.statusRotationBottle.value!!
         }
@@ -224,34 +225,24 @@ class HomeFragment : Fragment() {
                     binding.ivBottle.startAnimation(rotation)
                 }
             }
-
         }
     }
 
     private fun observerCountdown() {
         challengeViewModel.countdown.observe(viewLifecycleOwner) { countdownValue ->
             if (countdownValue != null) {
-                // Mostrar la cuenta regresiva en pantalla
                 binding.tvCountdown.isVisible = true
                 binding.tvCountdown.text = countdownValue.toString()
-
-                // Ocultar el botón mientras la cuenta regresiva está activa
                 binding.buttonAnimation.isVisible = false
             }
 
             if (countdownValue == 0) {
-                // Ocultar la cuenta regresiva al finalizar
                 binding.tvCountdown.isVisible = false
-
-                // Mostrar el botón nuevamente después de la cuenta regresiva
                 binding.buttonAnimation.isVisible = true
-
-                // Aquí activamos el estado para que el cuadro de diálogo de reto se muestre
-                challengeViewModel.setStatusShowDialog(true)
+                //challengeViewModel.setStatusShowDialog(true)
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -269,5 +260,4 @@ class HomeFragment : Fragment() {
             audioBackground.start()
         }
     }
-
 }
