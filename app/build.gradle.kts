@@ -70,6 +70,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
     testImplementation("org.mockito:mockito-android:5.14.2")
     testImplementation("org.robolectric:robolectric:4.10")
+    testImplementation("io.mockk:mockk:1.12.0")
 
 
     // Testing con LiveData y coroutines

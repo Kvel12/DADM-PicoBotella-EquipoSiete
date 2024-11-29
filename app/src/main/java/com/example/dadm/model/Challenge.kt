@@ -1,10 +1,16 @@
 package com.example.dadm.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity
 data class Challenge(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    var descripcion: String,
-)
+    val id: String = "", // Changed to String for Firebase ID
+    var descripcion: String = "",
+    val timestamp: Long = System.currentTimeMillis() // Added for ordering
+) {
+    // Convert to HashMap for Firebase
+    fun toMap(): Map<String, Any> {
+        return hashMapOf(
+            "id" to id,
+            "descripcion" to descripcion,
+            "timestamp" to timestamp
+        )
+    }
+}
